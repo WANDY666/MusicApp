@@ -27,9 +27,9 @@ export default {
   data() {
     return {
       images: [
-        { pic: require('../assets/image/swiper1.jpg') },
-        { pic: require('../assets/image/swiper2.jpg') },
-        { pic: require('../assets/image/swiper3.jpg') },
+        // { pic: require('../assets/image/swiper1.jpg') },
+        // { pic: require('../assets/image/swiper2.jpg') },
+        // { pic: require('../assets/image/swiper3.jpg') },
       ]
     }
   },
@@ -45,6 +45,12 @@ export default {
       pagination: {
         el: '.swiper-pagination',
       },
+
+      //修改swiper自己或子元素时，自动初始化swiper
+      observer:true,
+
+      //修改swiper的父元素时，自动初始化swiper
+      // observeParents:true,
       
       // 如果需要前进后退按钮
       // navigation: {

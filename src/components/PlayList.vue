@@ -1,0 +1,173 @@
+<template>
+  <div class="playlist">
+    <div class="playlist-top">
+      <div class="left">
+        <icon iconName="icon-bofang"></icon>
+        <div class="text">
+          <div class="title">
+            播放全部
+          </div>
+          <div class="num">
+            （共{{list.trackCount}}首）
+          </div>
+        </div>
+      </div>
+
+      <button class="right">
+        + 收藏（{{playCount(list.subscribedCount)}}）
+      </button>
+    </div>
+
+    <div class="list">
+      <div class="playItem" v-for="(item, index) in list.tracks" :key="index">
+        <div class="left">
+          <div class="index">
+            {{index + 1}}
+          </div>
+          <div class="content">
+            <div class="title">{{item.name}}</div>
+            <div class="author">
+              <span class="tag">
+                {{list.tags[0]}}
+              </span>
+              {{item.ar[0].name + ' - ' + item.al.name}}
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <icon iconName='icon-bofang'></icon>
+          <icon iconName='icon-liebiao1'></icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Icon from '@/components/Icon.vue'
+
+export default {
+  props: {
+    list: Object
+  },
+  components: {
+    Icon
+  },
+  methods: {
+    playCount(num) {
+      let res = num;
+      if (num >= 100000000) {
+        res = num / 100000000;
+        res = res.toFixed(2) + '亿';
+      } else if (num >= 10000) {
+        res = num / 10000;
+        res = res.toFixed(2) + '万'
+      }
+      return res;
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.playlist {
+  width: 100%;
+  padding: 0 0.4rem;
+  margin-top: 0.2rem;
+  background-color: white;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+  .playlist-top {
+    width: 100%;
+    height: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .left {
+      display: flex;
+      align-items: center;
+      .icon {
+        width: 0.6rem;
+        height: 0.6rem;
+      }
+      .title {
+        font-size: 0.34rem;
+        font-weight: 900;
+      }
+
+      .num {
+        font-size: 0.24rem;
+        color: #ccc;
+      }
+      .text {
+        display: flex;
+        align-items: center;
+        margin-left: 0.2rem;
+      }
+    }
+    .right {
+      font-size: 0.24rem;
+      color: #fff;
+      background-color: orangered;
+      line-height: 0.6rem;
+      padding: 0.1rem;
+      border-radius: 0.4rem;
+      border: none;
+    }
+  }
+
+  .list {
+    .playItem {
+      display: flex;
+      justify-content: space-between;
+      height: 1.2rem;
+      .left {
+        display: flex;
+        align-items: center;
+        color: #666;
+        .index {
+          width: 0.3rem;
+          font-size: 0.3rem;
+        }
+        .content {
+          margin-left: 0.4rem;
+          width: 5rem;
+          .title {
+            color: black;
+            font-size: 0.3rem;
+            font-weight: 600;
+            margin-bottom: 0.1rem;
+          }
+          .author {
+            font-size: 0.24rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            height: 0.4rem;
+
+            .tag {
+              font-size: 0.05rem;
+              color: red;
+              border: 1px solid orangered;
+              border-radius: 0.05rem;
+              margin-right: 0.03rem;
+            }
+          }
+          
+        } 
+      }
+
+      .right {
+        display: flex;
+        align-items: center;
+        .icon {
+          margin-right: 0.2rem;
+          width: 0.4rem;
+          height: 0.4rem;
+        }
+      }
+    }
+  }
+}
+</style>

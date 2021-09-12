@@ -20,7 +20,6 @@
 <script>
 import Swiper from 'swiper';   
 import 'swiper/css/swiper.css'
-import axios from 'axios'
 import{ getBanner } from '@/api/index'
 
 export default {

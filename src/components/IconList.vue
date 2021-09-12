@@ -5,11 +5,11 @@
       <span>每日推荐</span>
     </div>
     <div class="iconItem">
-      <icon iconName="icon-ku"></icon>
+      <icon iconName="icon-ku" color="yellow"></icon>
       <span>私人FM</span>
     </div>
     <div class="iconItem">
-      <icon iconName="icon-gedan1"></icon>
+      <icon iconName="icon-gedan1" color="yellow"></icon>
       <span>歌单</span>
     </div>
     <div class="iconItem">

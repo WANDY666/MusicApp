@@ -10,4 +10,8 @@
   font-family: 'Microsoft YaHei';
 }
 
+a {
+  color: black;
+  text-decoration: none;
+}
 </style>

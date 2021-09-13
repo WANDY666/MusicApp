@@ -75,6 +75,8 @@ export default {
   width: 7.1rem;
   height: 2.8rem;
   border-radius: 0.1rem;
+  position: relative;
+  z-index: 0;
 }
 
 .swiper-slide img{

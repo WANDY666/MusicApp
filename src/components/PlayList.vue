@@ -20,7 +20,7 @@
 
     <div class="list">
       <div class="playItem" v-for="(item, index) in list.tracks" :key="index">
-        <div class="left">
+        <div class="left" @click="changeMusic(list.tracks, index)">
           <div class="index">
             {{index + 1}}
           </div>
@@ -45,6 +45,7 @@
 
 <script>
 import Icon from '@/components/Icon.vue'
+import { mapMutations } from 'vuex'
 
 export default {
   props: {
@@ -64,6 +65,15 @@ export default {
         res = res.toFixed(2) + '万'
       }
       return res;
+    },
+    ...mapMutations(
+      ['setPlayIndex', 'setPlaylist']
+    ),
+    changeMusic(tracks, index) {
+      this.$store.dispatch('changeMusic', {
+        playlist: tracks,
+        playIndex: index
+      });
     }
   }
 }

@@ -45,7 +45,6 @@ export default {
     let result = await getMusicList();
     this.musicList = result.data.result;
     console.log(result);
-
     var swiper = new Swiper('#musicSwiper', this.swiperOption);
   },
 
@@ -68,7 +67,7 @@ export default {
 <style lang="less" scoped>
 .musicList {
   width: 7.5rem;
-  padding: 0 0.4rem;
+  padding: 0 0.2rem;
 
   .music-list-top {
     display: flex;
@@ -93,9 +92,10 @@ export default {
 
   .mlist {
     .swiper-container {
+      position: relative;
       width: 100%;
       height: 3rem;
-
+      z-index: 0;
       .swiper-slide {
         display: flex;
         flex-direction: column;

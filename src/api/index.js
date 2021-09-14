@@ -25,3 +25,15 @@ export function getPlaylistDetail(id) {
 export function getLyric(id) {
   return axios.get(`${baseUrl}/lyric?id=${id}`)
 }
+
+export function searchMusic(keyword) {
+  return axios.get(`${baseUrl}/search?keywords=${keyword}`);
+}
+
+export function phoneLogin(phone, password) {
+  return axios.get(`${baseUrl}/login/cellphone?phone=${phone}&password=${password}`);
+}
+
+export function getUserDetail(userId) {
+  return axios.get(`${baseUrl}/user/detail?uid=${userId}`);
+}

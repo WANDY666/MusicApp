@@ -1,7 +1,7 @@
 <template>
   <div class="playController">
     <div class="left" @click="showMusic=!showMusic">
-      <img :src="playlist[playCurrentIndex].al.picUrl" alt="">
+      <img :src="playlist[playCurrentIndex].al.picUrl" :alt="playlist">
       <div class="content">
         <div class="title">{{playlist[playCurrentIndex].name}}</div>
         <div class="tips">横滑可以切换上下首哦</div>

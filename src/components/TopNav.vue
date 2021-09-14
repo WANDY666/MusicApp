@@ -4,13 +4,13 @@
       <icon iconName="icon-liebiao1"></icon>
     </div>
     <div class="topCenter">
-      <span class="navBtn">我的</span>
+      <span class="navBtn" @click="$router.push('/User')">我的</span>
       <span class="navBtn">发现</span>
       <span class="navBtn">云村</span>
       <span class="navBtn">视频</span>
     </div>
     <div class="topRight">
-      <icon iconName="icon-sousuo"></icon>
+      <icon @click="$router.push('/searchView')" iconName="icon-sousuo"></icon>
     </div>
   </div>
 </template>

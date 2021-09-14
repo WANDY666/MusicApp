@@ -17,13 +17,13 @@
         <icon iconName="icon-fenxiang"></icon>
       </div>
     </div>
-    <div class="playContent" v-show="!isLyric">
+    <div @click="showLyric()" class="playContent" v-show="!isLyric">
       <img class="needle" :class="{ active:!paused }" src="@/assets/image/needle-ab.png">
       <img class="disc" src="@/assets/image/disc-plus.png" alt="">
       <img class="playImg" :src="music.al.picUrl">
     </div>
 
-    <div class="playLyric" v-show="isLyric" ref="playLyric">
+    <div @click="showLyric()" class="playLyric" v-show="isLyric" ref="playLyric">
       <p :class="{active: (currentTime * 1000 >= item.time && currentTime * 1000 < item.next)}" v-for="(item, i) in lyrics" :key="i">
         {{ item.lyric }}
       </p>
@@ -94,6 +94,9 @@ export default {
         playlist: this.$store.state.playlist,
         playIndex: (this.$store.state.playCurrentIndex - 1 + this.$store.state.playlist.length) % this.$store.state.playlist.length
       });
+    },
+    showLyric() {
+      this.isLyric = !this.isLyric;
     }
   },
   mounted() {

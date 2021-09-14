@@ -9,6 +9,12 @@ import playController from '@/components/playController.vue'
 export default {
   components: {
     playController
+  },
+  mounted() {
+    if (localStorage.getItem('userData')) {
+      let userData = JSON.parse(localStorage.getItem('userData'));
+      this.$store.commit('setUser', userData);
+    }
   }
 }
 </script>

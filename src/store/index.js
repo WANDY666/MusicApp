@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { getLyric } from '../api';
+import { getLyric, phoneLogin, getUserDetail } from '../api';
 
 export default createStore({
   state: {
@@ -26,7 +26,12 @@ export default createStore({
     playCurrentIndex: 0,
     lyric: '',
     intId: 0,
-    currentTime: 0
+    currentTime: 0,
+    user: {
+      isLogin: false,
+      account: {},
+      detail: {}
+    },
   },
   getters: {
     lyrics: function (state) {
@@ -73,7 +78,13 @@ export default createStore({
     },
     setIntId(state, value) {
       state.intId = value;
-    }
+    },
+    pushMusic(state, value) {
+      state.playlist.push(value);
+    },
+    setUser(state, value) {
+      state.user = value;
+    },
   },
   actions: {
     async reqLyric(content, options) {
@@ -89,6 +100,23 @@ export default createStore({
         id: options.playlist[options.playIndex].id
       });
       clearInterval(this.state.intId);
+    },
+
+    async login(content, payload) {
+      let result = await phoneLogin(payload.phone, payload.password);
+      if (result.data.code === 200) {
+        content.state.user.isLogin = true;
+        content.state.user.account = result.data.account;
+
+        let userDetail = await getUserDetail(result.data.account.id);
+        content.state.user.userDetail = userDetail.data;
+
+        localStorage.userData = JSON.stringify(content.state.user);
+        console.log(userDetail);
+        content.commit('setUser', content.state.user);
+      }
+      console.log(result);
+      return result;
     }
   },
   modules: {

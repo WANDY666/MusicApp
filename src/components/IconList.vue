@@ -13,7 +13,7 @@
       <span>歌单</span>
     </div>
     <div class="iconItem">
-      <icon iconName="icon-paihangbang"></icon>
+      <icon iconName="icon-paihangbang-"></icon>
       <span>排行榜</span>
     </div>
   </div>

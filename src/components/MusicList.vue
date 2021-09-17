@@ -1,6 +1,6 @@
 <template>
   <div class="musicList">
-    <div class="music-list-top">
+    <!-- <div class="music-list-top">
       <div class="title">发现好歌单</div>
       <div class="more">查看更多</div>
     </div>
@@ -18,14 +18,12 @@
           </router-link>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import Icon from '@/components/Icon.vue';
-import Swiper from 'swiper';   
-import 'swiper/css/swiper.css';
 import { getMusicList } from '@/api/index.js'
 
 export default {
@@ -34,7 +32,9 @@ export default {
     return {
       musicList: [],
       swiperOption: {
+        pagination: '.swiper-pagination',
         slidesPerView: 3,
+        paginationClickable: true,
         spaceBetween: 10,
         observer: true
       }
@@ -45,7 +45,6 @@ export default {
     let result = await getMusicList();
     this.musicList = result.data.result;
     console.log(result);
-    var swiper = new Swiper('#musicSwiper', this.swiperOption);
   },
 
   methods: {
@@ -62,7 +61,7 @@ export default {
     }
   }
 }
-</script>
+</script> -->
 
 <style lang="less" scoped>
 .musicList {
@@ -100,6 +99,7 @@ export default {
         display: flex;
         flex-direction: column;
         position: relative;
+        left: 0;
 
         img {
           width: 100%;
@@ -133,4 +133,4 @@ export default {
     }
   }
 }
-</style>
+</style> -->

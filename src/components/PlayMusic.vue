@@ -1,8 +1,10 @@
 <template>
   <div class="playMusic">
-    <div class="bg" :style="{backgroundImage: `url(${music.al.picUrl})`}"></div>
+    <div class="bg"
+         :style="bg_style"></div>
     <div class="playTop">
-      <div class="back" @click="$emit('back')">
+      <div class="back"
+           @click="$emit('back')">
         <icon iconName="icon-fanhuizuojiantou"></icon>
       </div>
       <div class="center">
@@ -17,26 +19,44 @@
         <icon iconName="icon-fenxiang"></icon>
       </div>
     </div>
-    <div @click="showLyric()" class="playContent" v-show="!isLyric">
-      <img class="needle" :class="{ active:!paused }" src="@/assets/image/needle-ab.png">
-      <img class="disc" src="@/assets/image/disc-plus.png" alt="">
-      <img class="playImg" :src="music.al.picUrl">
+    <div @click="showLyric()"
+         class="playContent"
+         v-show="!isLyric">
+      <img class="needle"
+           :class="{ active:!paused }"
+           src="@/assets/image/needle-ab.png">
+      <img class="disc"
+           src="@/assets/image/disc-plus.png"
+           alt="">
+      <img class="playImg"
+           :src="music.al.picUrl">
     </div>
 
-    <div @click="showLyric()" class="playLyric" v-show="isLyric" ref="playLyric">
-      <p :class="{active: (currentTime * 1000 >= item.time && currentTime * 1000 < item.next)}" v-for="(item, i) in lyrics" :key="i">
+    <div @click="showLyric()"
+         class="playLyric"
+         v-show="isLyric"
+         ref="playLyric">
+      <p :class="{active: (currentTime * 1000 >= item.time && currentTime * 1000 < item.next)}"
+         v-for="(item, i) in lyrics"
+         :key="i">
         {{ item.lyric }}
       </p>
     </div>
     <div class="lyric"></div>
     <div class="progress"></div>
     <div class="playFooter">
-        <icon iconName="icon-xunhuan"></icon>
-        <icon @click="lastMusic()" iconName="icon-shangyishoushangyige"></icon>
-        <icon v-if="paused" @click="play()" iconName="icon-bofang1"></icon>
-        <icon v-else @click="play()" iconName="icon-zanting1"></icon>
-        <icon @click="nextMusic()" iconName="icon-xiayigexiayishou"></icon>
-        <icon iconName="icon-bofangliebiaoguanli"></icon>
+      <icon iconName="icon-xunhuan"></icon>
+      <icon @click="lastMusic()"
+            iconName="icon-shangyishoushangyige"></icon>
+      <icon v-if="paused"
+            @click="play()"
+            iconName="icon-bofang1"></icon>
+      <icon v-else
+            @click="play()"
+            iconName="icon-zanting1"></icon>
+      <icon @click="nextMusic()"
+            iconName="icon-xiayigexiayishou"></icon>
+      <icon iconName="icon-bofangliebiaoguanli"></icon>
     </div>
   </div>
 </template>
@@ -45,21 +65,31 @@
 import { mapGetters, mapState } from 'vuex';
 import Icon from './Icon.vue'
 export default {
-  data() {
+  data () {
     return {
       isLyric: true,
+      backgroundImage: 'none'
     }
   },
+
   computed: {
     ...mapGetters([
       'lyrics',
     ]),
     ...mapState(
       ['currentTime']
-    )
+    ),
+    bg_style () {
+      if (this.music.al.picUrl) {
+        return { backgroundImage: `url(${this.music.al.picUrl})` };
+      } else {
+        return {};
+      }
+    }
   },
+
   watch: {
-    currentTime() {
+    currentTime () {
       console.log([this.$refs.playLyric]);
       let active = document.querySelector('.playLyric .active');
       if (!active) {
@@ -80,26 +110,26 @@ export default {
     Icon
   },
   methods: {
-    play() {
+    play () {
       this.$emit('play');
     },
-    nextMusic() {
+    nextMusic () {
       this.$store.dispatch('changeMusic', {
         playlist: this.$store.state.playlist,
         playIndex: (this.$store.state.playCurrentIndex + 1) % this.$store.state.playlist.length
       });
     },
-    lastMusic() {
+    lastMusic () {
       this.$store.dispatch('changeMusic', {
         playlist: this.$store.state.playlist,
         playIndex: (this.$store.state.playCurrentIndex - 1 + this.$store.state.playlist.length) % this.$store.state.playlist.length
       });
     },
-    showLyric() {
+    showLyric () {
       this.isLyric = !this.isLyric;
     }
   },
-  mounted() {
+  mounted () {
 
   }
 }
@@ -138,7 +168,8 @@ export default {
     color: white;
     font-size: 0.3rem;
 
-    .back, .share{
+    .back,
+    .share {
       padding: 0 0.4rem;
     }
 
@@ -150,6 +181,13 @@ export default {
       fill: white;
       width: 0.4rem;
       height: 0.4rem;
+    }
+
+    .title {
+      width: 5rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 
@@ -194,21 +232,26 @@ export default {
 
   .playLyric {
     position: absolute;
-    width: 7.5rem;
+    width: 6rem;
     height: 8rem;
-    left: 0;
+    left: 0.75rem;
     top: calc(50% - 4rem);
+    text-align: center;
     z-index: 5;
     overflow: scroll;
-    text-align: center;
     font-size: 0.3rem;
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     p {
       padding: 0.1rem 0.2rem;
+      color: rgb(190, 189, 189);
     }
 
     .active {
-      color: red;
+      color: white;
+      text-shadow: 0px 0px 10px #000;
     }
   }
 

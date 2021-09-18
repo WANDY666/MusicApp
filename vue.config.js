@@ -5,5 +5,9 @@ module.exports = {
       entry: "src/main.js",
       title: "Imusic"
     }
-  }
+  },
+
+  devServer: {
+    hot: true,
+  },
 }

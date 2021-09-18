@@ -19,17 +19,17 @@
     </div>
 
     <div class="list">
-      <div class="playItem" v-for="(item, index) in list.tracks" :key="index">
-        <div class="left" @click="changeMusic(list.tracks, index)">
+      <div class="playItem"
+           v-for="(item, index) in list.tracks"
+           :key="index">
+        <div class="left"
+             @click="changeMusic(list.tracks, index)">
           <div class="index">
             {{index + 1}}
           </div>
           <div class="content">
             <div class="title">{{item.name}}</div>
             <div class="author">
-              <span class="tag">
-                {{list.tags[0]}}
-              </span>
               {{item.ar[0].name + ' - ' + item.al.name}}
             </div>
           </div>
@@ -55,7 +55,7 @@ export default {
     Icon
   },
   methods: {
-    playCount(num) {
+    playCount (num) {
       let res = num;
       if (num >= 100000000) {
         res = num / 100000000;
@@ -69,7 +69,7 @@ export default {
     ...mapMutations(
       ['setPlayIndex', 'setPlaylist']
     ),
-    changeMusic(tracks, index) {
+    changeMusic (tracks, index) {
       this.$store.dispatch('changeMusic', {
         playlist: tracks,
         playIndex: index
@@ -144,28 +144,23 @@ export default {
           margin-left: 0.4rem;
           width: 5rem;
           .title {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             color: black;
             font-size: 0.3rem;
             font-weight: 600;
             margin-bottom: 0.1rem;
           }
+
           .author {
             font-size: 0.24rem;
+            height: 0.5rem;
             overflow: hidden;
-            text-overflow: ellipsis;
             white-space: nowrap;
-            height: 0.4rem;
-
-            .tag {
-              font-size: 0.05rem;
-              color: red;
-              border: 1px solid orangered;
-              border-radius: 0.05rem;
-              margin-right: 0.03rem;
-            }
+            text-overflow: ellipsis;
           }
-          
-        } 
+        }
       }
 
       .right {

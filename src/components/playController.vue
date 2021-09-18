@@ -1,29 +1,46 @@
 <template>
   <div class="playController">
-    <div class="left" @click="showMusic=!showMusic">
-      <img :src="playlist[playCurrentIndex].al.picUrl" :alt="playlist">
+    <div class="left"
+         @click="showMusic=!showMusic">
+      <img class="disc"
+           src="@/assets/image/disc-plus.png"
+           alt="">
+      <img class="image"
+           :src="currentMusic.al.picUrl"
+           :alt="playlist">
       <div class="content">
-        <div class="title">{{playlist[playCurrentIndex].name}}</div>
-        <div class="tips">横滑可以切换上下首哦</div>
+        <div class="title">{{currentMusic.name}}</div>
+        <div class="author">
+          {{currentMusic.ar[0].name + ' - ' + currentMusic.al.name}}
+        </div>
       </div>
     </div>
     <div class="right">
-      <icon v-if="paused" @click="play()" iconName="icon-play"></icon>
-      <icon v-else @click="play()" iconName="icon-zanting1"></icon>
+      <icon v-if="paused"
+            @click="play()"
+            iconName="icon-play"></icon>
+      <icon v-else
+            @click="play()"
+            iconName="icon-zanting1"></icon>
       <icon iconName="icon-gedan"></icon>
     </div>
-    <play-music @play='play()' :paused="paused" @back='showMusic=!showMusic' v-show="showMusic" :music='playlist[playCurrentIndex]'></play-music>
-    <audio ref='audio' :src="`https://music.163.com/song/media/outer/url?id=${playlist[playCurrentIndex].id}.mp3`"></audio>
+    <play-music @play='play()'
+                :paused="paused"
+                @back='showMusic=!showMusic'
+                v-show="showMusic"
+                :music='currentMusic'></play-music>
+    <audio ref='audio'
+           :src="`https://music.163.com/song/media/outer/url?id=${currentMusic.id}.mp3`"></audio>
   </div>
 </template>
 
 <script>
 
-import {mapState, mapMutations} from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Icon from './Icon.vue'
 import PlayMusic from './PlayMusic.vue'
 export default {
-  data() {
+  data () {
     return {
       paused: true,
       showMusic: false,
@@ -33,19 +50,20 @@ export default {
     Icon,
     PlayMusic
   },
-  mounted() {
+  mounted () {
     console.log(this.$refs.audio);
-    this.$store.dispatch('reqLyric', {id:this.playlist[this.playCurrentIndex].id});
+    this.$store.dispatch('reqLyric', { id: this.playlist[this.playCurrentIndex].id });
   },
-  updated() {
+  updated () {
   },
   watch: {
   },
   computed: {
-    ...mapState(['playlist', 'playCurrentIndex'])
+    ...mapState(['playlist', 'playCurrentIndex']),
+    ...mapGetters(['currentMusic'])
   },
   methods: {
-    play() {
+    play () {
       console.log(this.$refs.audio.currentTime);
       let audio = this.$refs.audio;
       console.log([this.$refs.audio.paused]);
@@ -60,18 +78,18 @@ export default {
       }
     },
 
-    updateTime() {
-      let id = setInterval(() => 
+    updateTime () {
+      let id = setInterval(() =>
         this.$store.commit('setCurrentTime', this.$refs.audio.currentTime)
-      , 500); 
+        , 500);
       this.$store.commit('setIntId', id);
     }
   },
   watch: {
-     playCurrentIndex(newIndex, oldIndex) {
-       console.log('NICE');
-       this.paused = true;
-     }
+    playCurrentIndex (newIndex, oldIndex) {
+      console.log('NICE');
+      this.paused = true;
+    }
   }
 }
 </script>
@@ -92,7 +110,25 @@ export default {
     display: flex;
     align-items: center;
     padding: 0 0.1rem;
-    img {
+    width: 6rem;
+    .disc {
+      width: 1rem;
+      height: 1rem;
+      position: absolute;
+      left: 0;
+    }
+
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .image {
+      animation: rotation 20s linear infinite;
       width: 0.8rem;
       height: 0.8rem;
       border-radius: 0.4rem;
@@ -100,13 +136,22 @@ export default {
 
     .content {
       padding: 0 0.2rem;
+
       .title {
-        font-size: 0.25rem;
+        width: 4.5rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 0.3rem;
         font-weight: 600;
       }
-      .tips {
-        font-size: 0.2rem;
-        color: #999;
+      .author {
+        font-size: 0.26rem;
+        height: 0.5rem;
+        line-height: 0.5rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }

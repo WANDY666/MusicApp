@@ -23,6 +23,7 @@
 
 <script>
 import { getBanner } from '@/api/index'
+import remSize from '@/../public/js/rem.js'
 
 export default {
   data () {
@@ -50,6 +51,7 @@ export default {
   async mounted () {
     // api获取轮播图图片
     let res = await getBanner(1);
+    console.log('Banner')
     console.log(res.data.banners);
     this.images = res.data.banners;
 
@@ -182,7 +184,7 @@ export default {
         console.log('touchmove');
 
         this.distanceX = event.targetTouches[0].pageX - this.startX;
-        this.$refs.swiperSlide.style.left = (this.lastLocation + this.distanceX) / 50 + 'rem';
+        this.$refs.swiperSlide.style.left = (this.lastLocation + this.distanceX) / remSize.remSize + 'rem';
         setTimeout(() => {
           this.touchLock = false;
         }, 50);

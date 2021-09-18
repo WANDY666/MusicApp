@@ -1,5 +1,7 @@
+let deviceWidth;
+
 function remSize(params) {
-  let deviceWidth = document.documentElement.clientWidth || window.innerWidth;
+  deviceWidth = document.documentElement.clientWidth || window.innerWidth;
   if (deviceWidth > 750) {
     deviceWidth = 750;
   }
@@ -16,4 +18,8 @@ remSize();
 
 window.onresize = function (params) {
   remSize();
+}
+
+export default {
+  remSize: (deviceWidth / 7.5)
 }

@@ -34,6 +34,9 @@ export default createStore({
     },
   },
   getters: {
+    currentMusic: function (state){
+      return state.playlist[state.playCurrentIndex];
+    },
     lyrics: function (state) {
       let arr = state.lyric.split(/\n/g).map((item, i) => {
         let min = parseInt(item.slice(1, 3));

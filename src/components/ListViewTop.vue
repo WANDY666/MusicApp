@@ -1,21 +1,26 @@
 <template>
   <div class="listViewTop">
-    <img class="bg" :src="list.coverImgUrl" alt="">
+    <img class="bg"
+         :src="list.coverImgUrl"
+         alt="">
     <div class="listViewTopNav">
-      <div class="back" @click="$router.back()">
+      <div class="back"
+           @click="$router.back()">
         <icon iconName='icon-fanhuizuojiantou'></icon>
         <div class="title">
           歌单
         </div>
       </div>
       <div class="right">
-        <icon class="search" iconName='icon-sousuo'></icon>
+        <icon class="search"
+              iconName='icon-sousuo'></icon>
         <icon iconName='icon-liebiao'></icon>
       </div>
     </div>
     <div class="content">
       <div class="content-left">
-        <img :src="list.coverImgUrl" alt="">
+        <img :src="list.coverImgUrl"
+             alt="">
         <div class="count">
           <icon iconName="icon-play"></icon>
           {{playCount(list.playCount)}}
@@ -24,7 +29,8 @@
       <div class="content-right">
         <h3>{{list.name}}</h3>
         <div class="author">
-          <img :src="list.creator.avatarUrl" class="header">
+          <img :src="list.creator.avatarUrl"
+               class="header">
           <span>{{ list.creator.nickname}}</span>
         </div>
         <div class="description">
@@ -65,7 +71,7 @@ export default {
     Icon
   },
   methods: {
-    playCount(num) {
+    playCount (num) {
       let res = num;
       if (num >= 100000000) {
         res = num / 100000000;
@@ -84,7 +90,6 @@ export default {
 .listViewTop {
   width: 100%;
   padding: 0 0.4rem;
-  height: 5.5rem;
   .bg {
     position: fixed;
     left: 0;
@@ -111,7 +116,8 @@ export default {
     }
   }
 
-  .back, .right {
+  .back,
+  .right {
     display: flex;
     .search {
       margin-right: 0.4rem;
@@ -131,19 +137,19 @@ export default {
       }
 
       .count {
-          color: #ccc;
-          position: absolute;
-          right: 0.1rem;
-          top: 0.1rem;
-          font-size: 0.24rem;
-          display: flex;
-          align-items: center;
-          border-radius: 0.1rem;
-          background-color: rgba(255,255,255,0.2);
-          text-decoration: bold;
-          icon {
-            fill: red;
-          }
+        color: #ccc;
+        position: absolute;
+        right: 0.1rem;
+        top: 0.1rem;
+        font-size: 0.24rem;
+        display: flex;
+        align-items: center;
+        border-radius: 0.1rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        text-decoration: bold;
+        icon {
+          fill: red;
+        }
       }
     }
 

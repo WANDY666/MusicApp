@@ -74,7 +74,7 @@ export default {
 
     startAutoplay () {
       // 设置自动播放，方向为向右
-      this.intervalId = setInterval(this.changeToLast, this.intervalTime);
+      this.intervalId = setInterval(this.changeToNext, this.intervalTime);
     },
 
     stopAutoplay () {

@@ -3,24 +3,31 @@ import { getLyric, phoneLogin, getUserDetail } from '../api';
 
 export default createStore({
   state: {
+    "playMode": 'ListCycle',
     playlist: [{
-      "name": "这城市的你我",
-      "id": 1838080899,
+      "name": "STAY",
+      "id": 1859245776,
       "ar": [
         {
-          "id": 12172312,
-          "name": "高宇Slient",
+          "id": 32795025,
+          "name": "The Kid LAROI",
+          "tns": [],
+          "alias": []
+        },
+        {
+          "id": 35531,
+          "name": "Justin Bieber",
           "tns": [],
           "alias": []
         }
       ],
       "al": {
-        "id": 126145071,
-        "name": "这城市的你我",
-        "picUrl": "http://p4.music.126.net/tS9xr_DxycG0U6ty6g__mw==/109951165898808895.jpg",
+        "id": 130016223,
+        "name": "STAY",
+        "picUrl": "http://p3.music.126.net/e5cvcdgeosDKTDrkTfZXnQ==/109951166155165682.jpg",
         "tns": [],
-        "pic_str": "109951165898808895",
-        "pic": 109951165898808900
+        "pic_str": "109951166155165682",
+        "pic": 109951166155165680
       },
     }],
     playCurrentIndex: 0,
@@ -32,13 +39,14 @@ export default createStore({
       account: {},
       detail: {}
     },
+    play: {}
   },
   getters: {
     currentMusic: function (state){
       return state.playlist[state.playCurrentIndex];
     },
     lyrics: function (state) {
-      let arr = state.lyric.split(/\n/g).map((item, i) => {
+      let arr = state.lyric.split(/\n/g).map((item) => {
         let min = parseInt(item.slice(1, 3));
         let sec = parseInt(item.slice(4, 6));
         let mill = parseInt(item.slice(7, 9));
@@ -49,7 +57,7 @@ export default createStore({
           time: (mill + sec * 1000 + min * 60 * 1000)
         };
       });
-
+      arr = arr.filter((e) => (e.lyric != ''));
       arr.forEach((item, i, arr) => {
         if (i === 0) {
           item.pre = 0;
@@ -63,12 +71,16 @@ export default createStore({
           item.next = arr[i + 1].time;
         }
       });
+      console.log(arr);
       return arr;
     }
   },
   mutations: {
     setPlaylist: function (state, value) {
       state.playlist = value;
+    },
+    setPlayFunc(state, func) {
+      state.play = func;
     },
     setPlayIndex(state, value) {
       state.playCurrentIndex = value;
@@ -88,6 +100,9 @@ export default createStore({
     setUser(state, value) {
       state.user = value;
     },
+    setPlayMode(state, value) {
+      state.playMode = value;
+    }
   },
   actions: {
     async reqLyric(content, options) {
@@ -96,13 +111,13 @@ export default createStore({
       console.log(result);
     },
 
-    changeMusic(content, options) {
+    async changeMusic(content, options) {
       content.commit('setPlaylist', options.playlist);
       content.commit('setPlayIndex', options.playIndex);
-      content.dispatch('reqLyric', {
+      await content.dispatch('reqLyric', {
         id: options.playlist[options.playIndex].id
       });
-      clearInterval(this.state.intId);
+      content.state.play();
     },
 
     async login(content, payload) {

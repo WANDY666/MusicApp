@@ -36,6 +36,7 @@ const routes = [
     name: 'User',
 
     beforeEnter: (to, from, next) => {
+      console.log(store.state.user.account);
       if (store.state.user.isLogin) {
         next()
       } else {

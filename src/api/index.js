@@ -37,3 +37,8 @@ export function phoneLogin(phone, password) {
 export function getUserDetail(userId) {
   return axios.get(`${baseUrl}/user/detail?uid=${userId}`);
 }
+
+export function getLikelist(userId) {
+  return axios.get(`${baseUrl}/likelist?uid=${userId}`)
+  
+}

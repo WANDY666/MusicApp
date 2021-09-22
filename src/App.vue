@@ -1,6 +1,8 @@
 <template>
-  <router-view/>
-  <play-controller></play-controller>
+  <div>
+    <router-view />
+    <play-controller ref="playController"></play-controller>
+  </div>
 </template>
 
 
@@ -10,17 +12,22 @@ export default {
   components: {
     playController
   },
-  mounted() {
+  mounted () {
     if (localStorage.getItem('userData')) {
       let userData = JSON.parse(localStorage.getItem('userData'));
       this.$store.commit('setUser', userData);
+    }
+  },
+  methods: {
+    play() {
+      
     }
   }
 }
 </script>
 
 <style lang="less">
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

@@ -1,8 +1,7 @@
 <template>
   <div class="listViewTop">
     <img class="bg"
-         :src="list.coverImgUrl"
-         alt="">
+         :src="list.coverImgUrl">
     <div class="listViewTopNav">
       <div class="back"
            @click="$router.back()">
@@ -19,8 +18,14 @@
     </div>
     <div class="content">
       <div class="content-left">
-        <img :src="list.coverImgUrl"
+        <img class="default"
+             src="../assets/image/user.png"
              alt="">
+        <img ref='cover'
+             class="cover"
+             :src="list.coverImgUrl"
+             alt=""
+             @load="finishImg('cover')">
         <div class="count">
           <icon iconName="icon-play"></icon>
           {{playCount(list.playCount)}}
@@ -29,8 +34,13 @@
       <div class="content-right">
         <h3>{{list.name}}</h3>
         <div class="author">
-          <img :src="list.creator.avatarUrl"
-               class="header">
+          <img class="default"
+               src="../assets/image/user.png"
+               alt="">
+          <img ref='header'
+               :src="list.creator.avatarUrl"
+               class="header"
+               @load="finishImg('header')">
           <span>{{ list.creator.nickname}}</span>
         </div>
         <div class="description">
@@ -71,6 +81,9 @@ export default {
     Icon
   },
   methods: {
+    finishImg (img) {
+      this.$refs[img].style.zIndex = -1;
+    },
     playCount (num) {
       let res = num;
       if (num >= 100000000) {
@@ -130,10 +143,19 @@ export default {
 
     .content-left {
       position: relative;
-      img {
+      .default {
         width: 2.7rem;
         height: 2.7rem;
         z-index: -1;
+        position: absolute;
+        background-color: white;
+      }
+
+      .cover {
+        width: 2.7rem;
+        height: 2.7rem;
+        z-index: -2;
+        position: relative;
       }
 
       .count {
@@ -163,10 +185,20 @@ export default {
         display: flex;
         align-items: center;
         margin: 0.2rem 0;
-        img.header {
+
+        img.default {
           width: 0.6rem;
           height: 0.6rem;
-          border-radius: 0.3rem;
+          margin-right: 0.2rem;
+          position: absolute;
+          z-index: -1;
+          background-color: grey;
+        }
+
+        img.header {
+          width: 0.6rem;
+          z-index: -2;
+          height: 0.6rem;
           margin-right: 0.2rem;
         }
 
@@ -180,6 +212,7 @@ export default {
         color: #aaa;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-shadow: 0.005rem 0.005rem black;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;

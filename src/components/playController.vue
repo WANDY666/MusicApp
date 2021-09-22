@@ -1,36 +1,41 @@
 <template>
-  <div class="playController">
-    <div class="left"
-         @click="showMusic=!showMusic">
-      <img class="disc"
-           src="@/assets/image/disc-plus.png"
-           alt="">
-      <img class="image"
-           :src="currentMusic.al.picUrl"
-           :alt="playlist">
-      <div class="content">
-        <div class="title">{{currentMusic.name}}</div>
-        <div class="author">
-          {{currentMusic.ar[0].name + ' - ' + currentMusic.al.name}}
+  <div>
+    <div class="space">
+    </div>
+    <div class="playController">
+      <div class="left"
+           @click="showMusic=!showMusic">
+        <img class="disc"
+             src="@/assets/image/disc-plus.png"
+             >
+        <img class="image"
+             :src="currentMusic.al.picUrl"
+             >
+        <div class="content">
+          <div class="title">{{currentMusic.name}}</div>
+          <div class="author">
+            {{currentMusic.ar[0].name + ' - ' + currentMusic.al.name}}
+          </div>
         </div>
       </div>
+      <div class="right">
+        <icon v-if="paused"
+              @click="play()"
+              iconName="icon-play"></icon>
+        <icon v-else
+              @click="play()"
+              iconName="icon-zanting1"></icon>
+        <icon iconName="icon-gedan"></icon>
+      </div>
+      <play-music @play='play()'
+                  :paused="paused"
+                  @back='showMusic=!showMusic'
+                  v-show="showMusic"
+                  :music='currentMusic'></play-music>
+      <audio ref='audio'
+             @ended="playNext()"
+             :src="`https://music.163.com/song/media/outer/url?id=${currentMusic.id}.mp3`"></audio>
     </div>
-    <div class="right">
-      <icon v-if="paused"
-            @click="play()"
-            iconName="icon-play"></icon>
-      <icon v-else
-            @click="play()"
-            iconName="icon-zanting1"></icon>
-      <icon iconName="icon-gedan"></icon>
-    </div>
-    <play-music @play='play()'
-                :paused="paused"
-                @back='showMusic=!showMusic'
-                v-show="showMusic"
-                :music='currentMusic'></play-music>
-    <audio ref='audio'
-           :src="`https://music.163.com/song/media/outer/url?id=${currentMusic.id}.mp3`"></audio>
   </div>
 </template>
 
@@ -43,7 +48,7 @@ export default {
   data () {
     return {
       paused: true,
-      showMusic: false,
+      showMusic: false
     }
   },
   components: {
@@ -51,15 +56,18 @@ export default {
     PlayMusic
   },
   mounted () {
-    console.log(this.$refs.audio);
-    this.$store.dispatch('reqLyric', { id: this.playlist[this.playCurrentIndex].id });
+    // console.log(this.$refs.audio);
+    console.log("mounted");
+    this.$store.commit('setPlayFunc', this.play.bind(this));
+    this.$store.dispatch('reqLyric', { id: this.currentMusic.id });
   },
   updated () {
-  },
-  watch: {
+    // 测试audio元素会不会变->不会变
+    // console.log('Current label is equal to ?');
+    // console.log(this.$refs.audio === this.audio);
   },
   computed: {
-    ...mapState(['playlist', 'playCurrentIndex']),
+    ...mapState(['playlist', 'playCurrentIndex', 'playMode']),
     ...mapGetters(['currentMusic'])
   },
   methods: {
@@ -78,23 +86,37 @@ export default {
       }
     },
 
+    async playNext () {
+      if (this.playMode === 'ListCycle') {
+        await this.$store.dispatch('changeMusic', {
+          playlist: this.playlist,
+          playIndex: (this.playCurrentIndex + 1) % this.playlist.length
+        });
+      } else if (this.playMode === 'MusicCycle') {
+        this.$refs.audio.currentTime = 0;
+        this.$refs.audio.play();
+      }
+    },
+
     updateTime () {
-      let id = setInterval(() =>
+      let id = setInterval(() => {
         this.$store.commit('setCurrentTime', this.$refs.audio.currentTime)
-        , 500);
+        // console.log(this.$refs.audio.currentTime);
+      }, 500);
       this.$store.commit('setIntId', id);
     }
   },
   watch: {
-    playCurrentIndex (newIndex, oldIndex) {
-      console.log('NICE');
-      this.paused = true;
-    }
+    // playCurrentIndex 由于 mapGetters 成为了本组件的计算变量
   }
 }
 </script>
 
 <style lang="less">
+.space {
+  width: 7.5rem;
+  height: 1.2rem;
+}
 .playController {
   width: 7.5rem;
   height: 1.2rem;
@@ -149,6 +171,8 @@ export default {
         font-size: 0.26rem;
         height: 0.5rem;
         line-height: 0.5rem;
+        width: 4.5rem;
+
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;

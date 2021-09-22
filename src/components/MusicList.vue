@@ -31,7 +31,7 @@
 <script>
 import Icon from '@/components/Icon.vue';
 import { getMusicList } from '@/api/index.js'
-import remSize from '@/../public/js/rem.js'
+import { remPx } from '@/../public/js/rem.js'
 
 export default {
   components: { Icon },
@@ -95,7 +95,7 @@ export default {
         console.log('touchmove');
 
         this.distanceX = event.targetTouches[0].pageX - this.startX;
-        this.$refs.mlist.style.left = (this.lastLocation + this.distanceX) / remSize.remSize + 'rem';
+        this.$refs.mlist.style.left = (this.lastLocation + this.distanceX) / remPx + 'rem';
         setTimeout(() => {
           this.touchLock = false;
         }, 50);

@@ -23,7 +23,7 @@
 
 <script>
 import { getBanner } from '@/api/index'
-import remSize from '@/../public/js/rem.js'
+import { remPx } from '@/../public/js/rem.js'
 
 export default {
   data () {
@@ -97,6 +97,13 @@ export default {
     changeToNext () {
       // this.swiperLock为防止滑动点击过于频繁
       if (this.swiperLock) {
+        return;
+      }
+      if (!this.$refs.swiperSlide) {
+        // 此时由于跳转到其他路由,关闭自动播放
+        clearInterval(this.intervalId);
+        clearTimeout(this.timeoutId);
+        console.log(this);
         return;
       }
       this.swiperLock = true;
@@ -184,7 +191,7 @@ export default {
         console.log('touchmove');
 
         this.distanceX = event.targetTouches[0].pageX - this.startX;
-        this.$refs.swiperSlide.style.left = (this.lastLocation + this.distanceX) / remSize.remSize + 'rem';
+        this.$refs.swiperSlide.style.left = (this.lastLocation + this.distanceX) / remPx + 'rem';
         setTimeout(() => {
           this.touchLock = false;
         }, 50);

@@ -18,8 +18,11 @@
     </div>
 
     <div class="list">
-      <div class="playItem" v-for="(item, index) in songs" :key="index">
-        <div class="left" @click="addMusic(item, index)">
+      <div class="playItem"
+           v-for="(item, index) in songs"
+           :key="index">
+        <div class="left"
+             @click="addMusic(item, index)">
           <div class="index">
             {{index + 1}}
           </div>
@@ -48,7 +51,7 @@ import Icon from '@/components/Icon.vue';
 import { mapMutations } from 'vuex';
 
 export default {
-  data() {
+  data () {
     return {
       songs: []
     }
@@ -58,7 +61,7 @@ export default {
     Icon
   },
   methods: {
-    setSearchSongs(list) {
+    setSearchSongs (list) {
       this.songs = list;
 
       console.log(this.songs)
@@ -68,7 +71,7 @@ export default {
       ['setPlayIndex', 'setPlaylist']
     ),
 
-    addMusic(item, index) {
+    addMusic (item) {
       console.log(item);
       item.al = item.album;
       item.al.picUrl = item.al.artist.img1v1Url;
@@ -80,7 +83,7 @@ export default {
       });
     },
 
-    getArtists(artists, album) {
+    getArtists (artists, album) {
       let names = artists.map((item) => item.name).join(', ');
       if (album && album.name) {
         names += ' - ' + album.name
@@ -91,7 +94,7 @@ export default {
   computed: {
 
   }
-  
+
 }
 </script>
 
@@ -137,8 +140,8 @@ export default {
       font-size: 0.24rem;
       margin: 0;
       padding: 0;
-      border: none;  //自定义边框
-      outline: none;    //消除默认点击蓝色边框效果
+      border: none; //自定义边框
+      outline: none; //消除默认点击蓝色边框效果
       background-color: transparent;
       .icon {
         width: 0.5rem;
@@ -165,6 +168,9 @@ export default {
           margin-left: 0.4rem;
           width: 5rem;
           .title {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             color: black;
             font-size: 0.3rem;
             font-weight: 600;
@@ -185,8 +191,7 @@ export default {
               margin-right: 0.03rem;
             }
           }
-          
-        } 
+        }
       }
 
       .right {

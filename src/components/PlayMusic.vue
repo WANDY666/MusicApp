@@ -9,8 +9,7 @@
       </div>
       <div class="center">
         <div class="title">
-          <!-- <marquee behavior="scroll" direction="left">{{ music.al.name }}</marquee> -->
-          {{ music.al.name }}
+          {{ music.name }}
         </div>
         <div class="author">
         </div>
@@ -36,7 +35,7 @@
          class="playLyric"
          v-show="isLyric"
          ref="playLyric">
-      <p :class="{active: (currentTime * 1000 >= item.time && currentTime * 1000 < item.next)}"
+      <p :class="{active: (currentTime * 1000 >= item.time && (currentTime * 1000 < item.next || i === lyrics.length - 1))}"
          v-for="(item, i) in lyrics"
          :key="i">
         {{ item.lyric }}
@@ -45,7 +44,12 @@
     <div class="lyric"></div>
     <div class="progress"></div>
     <div class="playFooter">
-      <icon iconName="icon-xunhuan"></icon>
+      <icon @click="changePlayMode('MusicCycle')"
+            v-if="playMode === 'ListCycle'"
+            iconName="icon-xunhuan"></icon>
+      <icon @click="changePlayMode('ListCycle')"
+            v-else-if="playMode === 'MusicCycle'"
+            iconName="icon-danquxunhuan"></icon>
       <icon @click="lastMusic()"
             iconName="icon-shangyishoushangyige"></icon>
       <icon v-if="paused"
@@ -77,7 +81,7 @@ export default {
       'lyrics',
     ]),
     ...mapState(
-      ['currentTime']
+      ['currentTime', 'playMode']
     ),
     bg_style () {
       if (this.music.al.picUrl) {
@@ -90,28 +94,36 @@ export default {
 
   watch: {
     currentTime () {
-      console.log([this.$refs.playLyric]);
+      // console.log(this.currentTime);
       let active = document.querySelector('.playLyric .active');
       if (!active) {
         return;
       }
+
       if (active.offsetTop > 100) {
         this.$refs.playLyric.scrollTop = active.offsetTop - 100;
       }
-
-      console.log([active]);
+    },
+    music (newValue, oldValue) {
+      console.log('Music')
+      console.log(newValue)
     }
   },
+
   props: {
     music: Object,
     paused: Boolean
   },
+
   components: {
     Icon
   },
   methods: {
     play () {
       this.$emit('play');
+    },
+    changePlayMode (value) {
+      this.$store.commit('setPlayMode', value);
     },
     nextMusic () {
       this.$store.dispatch('changeMusic', {
@@ -130,7 +142,6 @@ export default {
     }
   },
   mounted () {
-
   }
 }
 </script>
@@ -188,6 +199,7 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      text-align: center;
     }
   }
 
@@ -219,8 +231,16 @@ export default {
       left: calc(50% - 2.75rem);
       top: 2.5rem;
     }
-
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
     .playImg {
+      animation: rotation 20s linear infinite;
       width: 4rem;
       height: 4rem;
       border-radius: 4rem;

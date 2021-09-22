@@ -30,7 +30,7 @@
           <div class="content">
             <div class="title">{{item.name}}</div>
             <div class="author">
-              {{item.ar[0].name + ' - ' + item.al.name}}
+              {{getArtists(item.ar, item.al.name)}}
             </div>
           </div>
         </div>
@@ -74,6 +74,13 @@ export default {
         playlist: tracks,
         playIndex: index
       });
+    },
+    getArtists (artists, album) {
+      let names = artists.map((item) => item.name).join(', ');
+      if (album && album.name) {
+        names += ' - ' + album.name
+      }
+      return names;
     }
   }
 }
@@ -87,6 +94,7 @@ export default {
   background-color: white;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
+
   .playlist-top {
     width: 100%;
     height: 1rem;

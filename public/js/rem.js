@@ -20,6 +20,4 @@ window.onresize = function (params) {
   remSize();
 }
 
-export default {
-  remSize: (deviceWidth / 7.5)
-}
+export const remPx = (deviceWidth / 7.5);

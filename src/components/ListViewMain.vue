@@ -71,7 +71,7 @@ export default {
     ),
     changeMusic (tracks, index) {
       this.$store.dispatch('changeMusic', {
-        playlist: tracks,
+        playlist: JSON.parse(JSON.stringify(tracks)),
         playIndex: index
       });
     },

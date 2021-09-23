@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/listview',
     name: 'listview',
-    component: () => import('../views/MusicList.vue')
+    component: () => import('../views/ListView.vue')
   },
   {
     path: '/searchView',

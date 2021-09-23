@@ -1,15 +1,19 @@
 <template>
-  <div class="iconList">
+  <div class="HomeIconList">
     <div class="iconItem">
-      <icon class="icon" iconName="icon-fanjutuijian" color="red"></icon>
+      <icon class="icon"
+            iconName="icon-fanjutuijian"
+            color="red"></icon>
       <span>每日推荐</span>
     </div>
     <div class="iconItem">
-      <icon iconName="icon-ku" color="yellow"></icon>
+      <icon iconName="icon-ku"
+            color="yellow"></icon>
       <span>私人FM</span>
     </div>
     <div class="iconItem">
-      <icon iconName="icon-gedan1" color="yellow"></icon>
+      <icon iconName="icon-gedan1"
+            color="yellow"></icon>
       <span>歌单</span>
     </div>
     <div class="iconItem">
@@ -30,7 +34,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.iconList {
+.HomeIconList {
   display: flex;
   justify-content: space-around;
   padding: 0.4rem;
@@ -50,7 +54,7 @@ export default {
     }
 
     span {
-      font-size: 0.26rem
+      font-size: 0.26rem;
     }
   }
 }

@@ -1,184 +1,129 @@
 <template>
-  <div class="playlist">
-    <div class="playlist-top">
-      <div class="left">
-        <icon iconName="icon-bofang"></icon>
-        <div class="text">
-          <div class="title">
-            播放全部
-          </div>
-          <div class="num">
-            （共{{list.trackCount}}首）
-          </div>
+  <div class="playList"
+       @click.self="leavePlayList">
+    <main>
+      <header>
+        <div class="left">当前播放
+          <span style="fontSize:0.3rem">({{playlist.length}})</span>
         </div>
+        <icon @click="changePlayMode('MusicCycle')"
+              v-if="playMode === 'ListCycle'"
+              iconName="icon-xunhuan"></icon>
+        <icon @click.stop="changePlayMode('ListCycle')"
+              v-else-if="playMode === 'MusicCycle'"
+              iconName="icon-danquxunhuan"></icon>
+      </header>
+      <div class="list">
+        <section v-for="(item, index) in playlist"
+                 :key="item.id">
+          <div class="name">
+            {{item.name}} <span> {{' - ' + getArtists(item.ar, item.al.name)}}</span>
+          </div>
+          <div class="delete"
+               @click="deleteMusic(index)">×</div>
+        </section>
       </div>
-
-      <button class="right">
-        + 收藏（{{playCount(list.subscribedCount)}}）
-      </button>
-    </div>
-
-    <div class="list">
-      <div class="playItem"
-           v-for="(item, index) in list.tracks"
-           :key="index">
-        <div class="left"
-             @click="changeMusic(list.tracks, index)">
-          <div class="index">
-            {{index + 1}}
-          </div>
-          <div class="content">
-            <div class="title">{{item.name}}</div>
-            <div class="author">
-              {{getArtists(item.ar, item.al.name)}}
-            </div>
-          </div>
-        </div>
-        <div class="right">
-          <icon iconName='icon-bofang'></icon>
-          <icon iconName='icon-liebiao1'></icon>
-        </div>
-      </div>
-    </div>
+    </main>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Icon from '@/components/Icon.vue'
-import { mapMutations } from 'vuex'
-
 export default {
-  props: {
-    list: Object
+  computed: {
+    ...mapState(['playlist', 'playMode', 'showPlayList'])
   },
+
   components: {
     Icon
   },
+
   methods: {
-    playCount (num) {
-      let res = num;
-      if (num >= 100000000) {
-        res = num / 100000000;
-        res = res.toFixed(2) + '亿';
-      } else if (num >= 10000) {
-        res = num / 10000;
-        res = res.toFixed(2) + '万'
-      }
-      return res;
+    changePlayMode (value) {
+      this.$store.commit('setPlayMode', value);
     },
-    ...mapMutations(
-      ['setPlayIndex', 'setPlaylist']
-    ),
-    changeMusic (tracks, index) {
-      this.$store.dispatch('changeMusic', {
-        playlist: tracks,
-        playIndex: index
-      });
-    },
+
     getArtists (artists, album) {
       let names = artists.map((item) => item.name).join(', ');
       if (album && album.name) {
         names += ' - ' + album.name
       }
       return names;
+    },
+    leavePlayList () {
+      this.$store.commit('setShowPlayList', !this.showPlayList);
+    },
+    deleteMusic (index) {
+      this.$store.dispatch('deleteMusic', { index });
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.playlist {
-  width: 100%;
-  padding: 0 0.4rem;
-  margin-top: 0.2rem;
-  background-color: white;
-  border-top-left-radius: 0.3rem;
-  border-top-right-radius: 0.3rem;
+.playList {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 
-  .playlist-top {
-    width: 100%;
-    height: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .left {
-      display: flex;
-      align-items: center;
-      .icon {
-        width: 0.6rem;
-        height: 0.6rem;
-      }
-      .title {
-        font-size: 0.34rem;
-        font-weight: 900;
-      }
-
-      .num {
-        font-size: 0.24rem;
-        color: #ccc;
-      }
-      .text {
-        display: flex;
-        align-items: center;
-        margin-left: 0.2rem;
-      }
+  main {
+    width: 90%;
+    height: 60%;
+    background-color: white;
+    position: absolute;
+    overflow: scroll;
+    &::-webkit-scrollbar {
+      display: none;
     }
-    .right {
-      font-size: 0.24rem;
-      color: #fff;
-      background-color: orangered;
-      line-height: 0.6rem;
-      padding: 0.1rem;
-      border-radius: 0.4rem;
-      border: none;
-    }
-  }
-
-  .list {
-    .playItem {
+    bottom: 0.5rem;
+    left: 5%;
+    z-index: 100;
+    border-radius: 0.5rem;
+    header {
+      // border: 1px solid black;
+      font-size: 0.35rem;
+      top: 0;
       display: flex;
+      margin: 0.3rem 0 0 0;
+      font-weight: 900;
       justify-content: space-between;
-      height: 1.2rem;
-      .left {
-        display: flex;
-        align-items: center;
-        color: #666;
-        .index {
-          width: 0.3rem;
-          font-size: 0.3rem;
-        }
-        .content {
-          margin-left: 0.4rem;
-          width: 5rem;
-          .title {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            color: black;
-            font-size: 0.3rem;
-            font-weight: 600;
-            margin-bottom: 0.1rem;
-          }
-
-          .author {
-            font-size: 0.24rem;
-            height: 0.5rem;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
+      align-items: center;
+      padding-left: 0.4rem;
+      padding-right: 0.4rem;
+      padding-bottom: 0.2rem;
+      .icon {
+        fill: black;
+        width: 0.5rem;
+        height: 0.5rem;
+        stroke-width: 0.2rem;
+      }
+    }
+    section {
+      display: flex;
+      height: 0.8rem;
+      padding: 0.1rem 0.4rem;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0.05rem 0;
+      .name {
+        width: 80%;
+        font-size: 0.3rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        span {
+          font-size: 0.16rem;
+          color: grey;
         }
       }
 
-      .right {
-        display: flex;
-        align-items: center;
-        .icon {
-          margin-right: 0.2rem;
-          width: 0.4rem;
-          height: 0.4rem;
-        }
+      .delete {
+        font-size: 0.5rem;
+        font-weight: 100;
+        color: grey;
       }
     }
   }

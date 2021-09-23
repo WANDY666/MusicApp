@@ -1,35 +1,37 @@
 import { createStore } from 'vuex'
 import { getLyric, phoneLogin, getUserDetail } from '../api';
 
+let defaultMusic = {
+  "name": "STAY",
+  "id": 1859245776,
+  "ar": [
+    {
+      "id": 32795025,
+      "name": "The Kid LAROI",
+      "tns": [],
+      "alias": []
+    },
+    {
+      "id": 35531,
+      "name": "Justin Bieber",
+      "tns": [],
+      "alias": []
+    }
+  ],
+  "al": {
+    "id": 130016223,
+    "name": "STAY",
+    "picUrl": "http://p3.music.126.net/e5cvcdgeosDKTDrkTfZXnQ==/109951166155165682.jpg",
+    "tns": [],
+    "pic_str": "109951166155165682",
+    "pic": 109951166155165680
+  },
+};
+
 export default createStore({
   state: {
-    "playMode": 'ListCycle',
-    playlist: [{
-      "name": "STAY",
-      "id": 1859245776,
-      "ar": [
-        {
-          "id": 32795025,
-          "name": "The Kid LAROI",
-          "tns": [],
-          "alias": []
-        },
-        {
-          "id": 35531,
-          "name": "Justin Bieber",
-          "tns": [],
-          "alias": []
-        }
-      ],
-      "al": {
-        "id": 130016223,
-        "name": "STAY",
-        "picUrl": "http://p3.music.126.net/e5cvcdgeosDKTDrkTfZXnQ==/109951166155165682.jpg",
-        "tns": [],
-        "pic_str": "109951166155165682",
-        "pic": 109951166155165680
-      },
-    }],
+    playMode: 'ListCycle',
+    playlist: [defaultMusic],
     playCurrentIndex: 0,
     lyric: '',
     intId: 0,
@@ -39,10 +41,13 @@ export default createStore({
       account: {},
       detail: {}
     },
-    play: {}
+    play: {},
+    pause: {},
+    showPlayList: false
   },
   getters: {
     currentMusic: function (state){
+      console.log("getcurrentMusic");
       return state.playlist[state.playCurrentIndex];
     },
     lyrics: function (state) {
@@ -79,11 +84,17 @@ export default createStore({
     setPlaylist: function (state, value) {
       state.playlist = value;
     },
+    setShowPlayList(state, value) {
+      state.showPlayList = value;
+    },
     setPlayFunc(state, func) {
       state.play = func;
     },
     setPlayIndex(state, value) {
       state.playCurrentIndex = value;
+    },
+    setPauseFunc(state, func) {
+      state.pause = func;
     },
     setLyric(state, value) {
       state.lyric = value;
@@ -102,6 +113,9 @@ export default createStore({
     },
     setPlayMode(state, value) {
       state.playMode = value;
+    },
+    deleteListMusic(state, index) {
+      state.playlist.splice(index, 1);
     }
   },
   actions: {
@@ -111,7 +125,29 @@ export default createStore({
       console.log(result);
     },
 
+    async deleteMusic(content, options) {
+      if (content.state.playlist.length === 1) {
+        console.log('finish');
+        return;
+      }
+
+      if (options.index === content.state.playCurrentIndex) {
+        content.state.pause();
+        content.commit('deleteListMusic', options.index);
+        content.dispatch('changeMusic', {
+          playlist: content.state.playlist,
+          playIndex: (content.state.playCurrentIndex) % content.state.playlist.length
+        });
+      } else {
+        if (options.index < content.state.playCurrentIndex) {
+          content.commit('setPlayIndex', content.state.playCurrentIndex - 1);
+        }
+        content.commit('deleteListMusic', options.index);
+      }
+    },
+
     async changeMusic(content, options) {
+      content.state.pause();
       content.commit('setPlaylist', options.playlist);
       content.commit('setPlayIndex', options.playIndex);
       await content.dispatch('reqLyric', {

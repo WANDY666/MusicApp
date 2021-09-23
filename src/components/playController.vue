@@ -6,11 +6,9 @@
       <div class="left"
            @click="showMusic=!showMusic">
         <img class="disc"
-             src="@/assets/image/disc-plus.png"
-             >
+             src="@/assets/image/disc-plus.png">
         <img class="image"
-             :src="currentMusic.al.picUrl"
-             >
+             :src="currentMusic.al.picUrl">
         <div class="content">
           <div class="title">{{currentMusic.name}}</div>
           <div class="author">
@@ -25,7 +23,8 @@
         <icon v-else
               @click="play()"
               iconName="icon-zanting1"></icon>
-        <icon iconName="icon-gedan"></icon>
+        <icon @click="toShowPlayList()"
+              iconName="icon-gedan"></icon>
       </div>
       <play-music @play='play()'
                   :paused="paused"
@@ -36,6 +35,8 @@
              @ended="playNext()"
              :src="`https://music.163.com/song/media/outer/url?id=${currentMusic.id}.mp3`"></audio>
     </div>
+    <play-list v-show="showPlayList"
+               class="playList"></play-list>
   </div>
 </template>
 
@@ -44,6 +45,7 @@
 import { mapState, mapGetters } from 'vuex';
 import Icon from './Icon.vue'
 import PlayMusic from './PlayMusic.vue'
+import PlayList from './PlayList.vue'
 export default {
   data () {
     return {
@@ -53,12 +55,14 @@ export default {
   },
   components: {
     Icon,
-    PlayMusic
+    PlayMusic,
+    PlayList
   },
   mounted () {
     // console.log(this.$refs.audio);
     console.log("mounted");
     this.$store.commit('setPlayFunc', this.play.bind(this));
+    this.$store.commit('setPauseFunc', this.pause.bind(this));
     this.$store.dispatch('reqLyric', { id: this.currentMusic.id });
   },
   updated () {
@@ -67,16 +71,34 @@ export default {
     // console.log(this.$refs.audio === this.audio);
   },
   computed: {
-    ...mapState(['playlist', 'playCurrentIndex', 'playMode']),
+    ...mapState(['playlist', 'playCurrentIndex', 'playMode', 'showPlayList']),
     ...mapGetters(['currentMusic'])
   },
   methods: {
+    toShowPlayList () {
+      this.$store.commit('setShowPlayList', !this.showPlayList);
+    },
+    pause () {
+      if (!this.$refs.audio.paused) {
+        this.$refs.audio.pause();
+      }
+    },
     play () {
       console.log(this.$refs.audio.currentTime);
       let audio = this.$refs.audio;
       console.log([this.$refs.audio.paused]);
       if (audio.paused) {
         audio.play();
+        // let playPromise = audio.play();
+        // if (playPromise !== undefined) {
+        //   playPromise.then( => {
+        //     audio
+        //   })
+        //     .catch(error => {
+        //       // Auto-play was prevented
+        //       // Show paused UI.
+        //     });
+        // }
         this.paused = false;
         this.updateTime();
       } else {

@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="iconList">
+    <div class="HomeIconList">
       <div class="iconItem">
         <icon iconName='icon-dilanxianxingiconyihuifu_huabanfuben'></icon>
         <span>{{ list.commentCount }}</span>
@@ -185,6 +185,7 @@ export default {
         display: flex;
         align-items: center;
         margin: 0.2rem 0;
+        position: relative;
 
         img.default {
           width: 0.6rem;
@@ -209,10 +210,10 @@ export default {
       }
       .description {
         font-size: 0.24rem;
-        color: #aaa;
+        color: white;
         overflow: hidden;
         text-overflow: ellipsis;
-        text-shadow: 0.005rem 0.005rem black;
+        // text-shadow: 0.005rem 0.005rem black;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -220,7 +221,7 @@ export default {
     }
   }
 
-  .iconList {
+  .HomeIconList {
     display: flex;
     justify-content: space-around;
     margin-top: 0.4rem;

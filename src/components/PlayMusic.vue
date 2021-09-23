@@ -60,7 +60,8 @@
             iconName="icon-zanting1"></icon>
       <icon @click="nextMusic()"
             iconName="icon-xiayigexiayishou"></icon>
-      <icon iconName="icon-bofangliebiaoguanli"></icon>
+      <icon @click="toShowPlayList"
+            iconName="icon-bofangliebiaoguanli"></icon>
     </div>
   </div>
 </template>
@@ -81,7 +82,7 @@ export default {
       'lyrics',
     ]),
     ...mapState(
-      ['currentTime', 'playMode']
+      ['currentTime', 'playMode', 'showPlayList']
     ),
     bg_style () {
       if (this.music.al.picUrl) {
@@ -139,6 +140,9 @@ export default {
     },
     showLyric () {
       this.isLyric = !this.isLyric;
+    },
+    toShowPlayList () {
+      this.$store.commit('setShowPlayList', !this.showPlayList);
     }
   },
   mounted () {

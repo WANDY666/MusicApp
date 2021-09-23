@@ -1,34 +1,34 @@
 <template>
   <div class="home">
-    <top-nav style="margin-top: 10px"></top-nav>
+    <home-top-nav style="margin-top: 10px"></home-top-nav>
     <div style="height: 16px"></div>
-    <swiper-com></swiper-com>
-    <icon-list></icon-list>
-    <music-list></music-list>
+    <home-swiper></home-swiper>
+    <home-icon-list></home-icon-list>
+    <home-music-list></home-music-list>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import TopNav from '@/components/TopNav.vue'
-import SwiperCom from '@/components/SwiperCom.vue'
-import IconList from '@/components/IconList.vue'
-import MusicList from '@/components/MusicList.vue'
+import HomeTopNav from '@/components/HomeTopNav.vue'
+import HomeSwiper from '@/components/HomeSwiper.vue'
+import HomeIconList from '@/components/HomeIconList'
+import HomeMusicList from '@/components/HomeMusicList.vue'
 
 export default {
   name: 'Home',
-  data() {
+  data () {
     return {
-      
+
     }
   },
   computed: {
   },
   components: {
-    TopNav,
-    SwiperCom,
-    IconList,
-    MusicList
+    HomeTopNav,
+    HomeSwiper,
+    HomeIconList,
+    HomeMusicList
   },
 }
 </script>

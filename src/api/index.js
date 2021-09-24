@@ -26,8 +26,12 @@ export function getLyric(id) {
   return axios.get(`${baseUrl}/lyric?id=${id}`)
 }
 
-export function searchMusic(keyword) {
-  return axios.get(`${baseUrl}/search?keywords=${keyword}`);
+export function searchMusic(keyword, offset) {
+  if (offset === undefined) {
+    return axios.get(`${baseUrl}/search?keywords=${keyword}`);
+  } else {
+    return axios.get(`${baseUrl}/search?keywords=${keyword}&offset=${offset}`);
+  }
 }
 
 export function phoneLogin(phone, password) {

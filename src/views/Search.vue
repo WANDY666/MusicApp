@@ -1,6 +1,34 @@
 <template>
   <div class="search">
-    <searchTop @setSearchSongs='setSearchSongs'></searchTop>
+    <div class="SearchTop">
+      <div class="SearchTopNav">
+        <div class="back"
+             @click="$router.back()">
+          <icon iconName='icon-fanhuizuojiantou'></icon>
+        </div>
+        <div class="right">
+          <input type="text"
+                 v-model="searchKey"
+                 :placeholder="placeholder"
+                 @keydown.enter="saveKeyword()">
+        </div>
+      </div>
+
+      <div class="occupy">
+      </div>
+
+      <div class="history">
+        <div class="historyLeft">
+          历史
+        </div>
+        <div class="historyRight">
+          <div @click='historySearch(item)'
+               class="keyword"
+               v-for="(item, index) in keywordList"
+               :key="index">{{item}}</div>
+        </div>
+      </div>
+    </div>
 
     <div class="search-music-top">
       <div class="left">
@@ -42,28 +70,75 @@
         </div>
       </div>
     </div>
+
+    <div class="next"
+         @click="showMoreRes()">
+      <div v-show="lastSearch !== ''"
+           class="more">
+        点击获得更多
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import SearchTop from '@/components/SearchTop.vue';
+import { searchMusic } from '@/api/index.js';
 import Icon from '@/components/Icon.vue';
 import { mapMutations } from 'vuex';
 
 export default {
   data () {
     return {
-      songs: []
+      songs: [],
+      placeholder: 'wandy',
+      keywordList: [],
+      searchKey: '',
+      lastSearch: '',
+      offset: 0
+    }
+  },
+  beforeMount () {
+    if (localStorage.getItem('keywordList')) {
+      this.keywordList = JSON.parse(localStorage.getItem('keywordList'));
     }
   },
   components: {
-    SearchTop,
     Icon
   },
   methods: {
+    async showMoreRes () {
+      let result = await searchMusic(this.lastSearch, ++this.offset);
+      this.songs = this.songs.concat(result.data.result.songs);
+    },
+    async saveKeyword () {
+      if (this.searchKey) {
+        console.log(this.searchKey);
+        let index = this.keywordList.indexOf(this.searchKey);
+        if (index !== -1) {
+          this.keywordList.splice(index, 1);
+        }
+        this.keywordList.unshift(this.searchKey);
+        if (this.keywordList.length > 10) {
+          this.keywordList.pop();
+        }
+        console.log(this.keywordList);
+
+        let result = await searchMusic(this.searchKey);
+        this.lastSearch = this.searchKey;
+        this.searchKey = '';
+        this.offset = 0;
+        console.log(result);
+        this.setSearchSongs(result.data.result.songs);
+      }
+    },
+
+    async historySearch (keyword) {
+      this.searchKey = keyword;
+      this.saveKeyword();
+    },
+
     setSearchSongs (list) {
       this.songs = list;
-
       console.log(this.songs)
     },
 
@@ -91,6 +166,9 @@ export default {
       return names;
     }
   },
+  beforeUnmount () {
+    localStorage.setItem('keywordList', JSON.stringify(this.keywordList));
+  },
   computed: {
 
   }
@@ -106,6 +184,74 @@ export default {
   background-color: white;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
+
+  .SearchTop {
+    width: 100%;
+    padding: 0 0.4rem;
+
+    .SearchTopNav {
+      display: flex;
+      width: 7.5rem;
+      height: 1.2rem;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 0.2rem;
+      background-color: white;
+
+      .icon {
+        width: 0.45rem;
+        height: 0.45rem;
+        fill: #444;
+      }
+
+      .right {
+        padding: 0 0 0 0.4rem;
+        flex: 1;
+
+        input {
+          border: none;
+          outline: none;
+          font-size: 0.45rem;
+          border-bottom: 1px solid #666;
+          width: 100%;
+        }
+      }
+    }
+
+    .occupy {
+      height: 1.2rem;
+    }
+
+    .history {
+      display: flex;
+      font-size: 0.3rem;
+      align-items: center;
+
+      .historyLeft {
+        width: 1.2rem;
+        height: 0.8rem;
+        font-weight: 900;
+        line-height: 0.8rem;
+      }
+
+      .historyRight {
+        color: #666;
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1;
+        .keyword {
+          background-color: #eee;
+          height: 0.6rem;
+          padding: 0 0.2rem;
+          border-radius: 0.4rem;
+          line-height: 0.6rem;
+          margin: 0.1rem 0.1rem;
+        }
+      }
+    }
+  }
   .search-music-top {
     width: 100%;
     height: 1rem;
@@ -203,6 +349,18 @@ export default {
           height: 0.4rem;
         }
       }
+    }
+  }
+
+  .next {
+    text-align: center;
+    .more {
+      font-size: 0.35rem;
+      color: grey;
+      width: 4rem;
+      margin: 0.2rem auto;
+      // border: 1px solid black;
+      border-radius: 0.2rem;
     }
   }
 }

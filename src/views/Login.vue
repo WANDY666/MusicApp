@@ -75,7 +75,7 @@ export default {
         password: this.password
       });
       if (result.data.code === 200) {
-        this.$router.push('/User');
+        this.$router.push('User');
       }
       this.phone = '';
       this.password = '';

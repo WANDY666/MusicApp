@@ -6,15 +6,16 @@
     </div>
     <div class="topCenter">
       <span class="navBtn"
-            @click="$router.push('/User')">我的</span>
-      <span class="navBtn">发现</span>
+            @click="$router.push('User')">我的</span>
+      <span style="font-weight: 900"
+            class="navBtn">发现</span>
       <span class="navBtn"
             style="color: red">云村</span>
       <span class="navBtn"
             style="color: red">视频</span>
     </div>
     <div class="topRight">
-      <icon @click="$router.push('/searchView')"
+      <icon @click="$router.push('searchView')"
             iconName="icon-sousuo"></icon>
     </div>
   </div>

@@ -12,8 +12,10 @@
       </div>
       <div class="right">
         <icon class="search"
+              @click="$router.push('searchView')"
               iconName='icon-sousuo'></icon>
-        <icon iconName='icon-liebiao'></icon>
+        <icon style="fill: red"
+              iconName='icon-liebiao'></icon>
       </div>
     </div>
     <div class="content">

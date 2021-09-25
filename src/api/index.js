@@ -44,5 +44,8 @@ export function getUserDetail(userId) {
 
 export function getLikelist(userId) {
   return axios.get(`${baseUrl}/likelist?uid=${userId}`)
-  
+}
+
+export function getMusicDetail(musicIds) {
+  return axios.get(`${baseUrl}/song/detail?ids=${musicIds}`)
 }

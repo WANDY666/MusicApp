@@ -99,6 +99,7 @@ export default {
   },
   beforeMount () {
     if (localStorage.getItem('keywordList')) {
+      console.log(localStorage.getItem('keywordList'));
       this.keywordList = JSON.parse(localStorage.getItem('keywordList'));
     }
   },
@@ -167,7 +168,9 @@ export default {
     }
   },
   beforeUnmount () {
-    localStorage.setItem('keywordList', JSON.stringify(this.keywordList));
+    if (this.keywordList) {
+      localStorage.setItem('keywordList', JSON.stringify(this.keywordList));
+    }
   },
   computed: {
 
@@ -179,11 +182,12 @@ export default {
 <style lang="less" scoped>
 .search {
   width: 100%;
-  padding: 0 0.4rem;
-  margin-top: 0.2rem;
+  height: calc(100vh - 1.2rem);
+  padding: 0.2rem 0.4rem 0 0.4rem;
   background-color: white;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
+  overflow: auto;
 
   .SearchTop {
     width: 100%;

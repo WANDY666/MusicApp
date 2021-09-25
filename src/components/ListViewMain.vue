@@ -135,7 +135,6 @@ export default {
       border: none;
     }
   }
-
   .list {
     .playItem {
       display: flex;

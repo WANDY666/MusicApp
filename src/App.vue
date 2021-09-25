@@ -5,12 +5,16 @@
   </div>
 </template>
 
-
 <script>
 import PlayController from '@/components/PlayController.vue'
 export default {
   components: {
     PlayController
+  },
+  beforeMount () {
+    if (localStorage.getItem('playlist')) {
+      this.keywordList = JSON.parse(localStorage.getItem('playlist'));
+    }
   },
   mounted () {
     if (localStorage.getItem('userData')) {
@@ -19,6 +23,9 @@ export default {
     }
   },
   methods: {
+  },
+  beforeUnmount () {
+    localStorage.setItem('keywordList', JSON.stringify(this.$store.state.playlist));
   }
 }
 </script>
@@ -34,14 +41,5 @@ export default {
 a {
   color: black;
   text-decoration: none;
-}
-
-.app {
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-  ::-webkit-scrollbar {
-    display: none;
-  }
 }
 </style>

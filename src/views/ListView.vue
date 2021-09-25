@@ -77,7 +77,7 @@ export default {
   }
 }
 </script>
-
+r
 <style lang="less" scoped>
 .listView {
   width: 100vw;

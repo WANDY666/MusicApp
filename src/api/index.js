@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-let baseUrl = 'http://localhost:3000';
+let corsUrl = '/api';
+let baseUrl = 'http://localhost:3000'
 //获取轮播图的api, type
 // type:资源类型,对应以下类型,默认为 0 即PC
 // 0: pc
@@ -48,4 +49,12 @@ export function getLikelist(userId) {
 
 export function getMusicDetail(musicIds) {
   return axios.get(`${baseUrl}/song/detail?ids=${musicIds}`)
+}
+
+export function getTopArtists() {
+  return axios.get(`${baseUrl}/top/artists?limit=6`)
+}
+
+export function getArtistSongTop(artistId) {
+  return axios.get(`${baseUrl}/artist/top/song?id=${artistId}`);
 }

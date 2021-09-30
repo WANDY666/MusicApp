@@ -5,6 +5,7 @@
     <home-swiper></home-swiper>
     <home-icon-list></home-icon-list>
     <home-music-list></home-music-list>
+    <home-art-list></home-art-list>
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import HomeTopNav from '@/components/HomeTopNav.vue'
 import HomeSwiper from '@/components/HomeSwiper.vue'
 import HomeIconList from '@/components/HomeIconList'
 import HomeMusicList from '@/components/HomeMusicList.vue'
+import HomeArtList from '@/components/HomeArtList.vue'
 
 export default {
   name: 'Home',
@@ -28,7 +30,8 @@ export default {
     HomeTopNav,
     HomeSwiper,
     HomeIconList,
-    HomeMusicList
+    HomeMusicList,
+    HomeArtList
   },
 }
 </script>
@@ -38,5 +41,11 @@ export default {
   width: 3.75rem;
   height: 3.75rem;
   background-color: skyblue;
+}
+
+.home {
+  width: 100vw;
+  height: calc(100vh - 1.2rem);
+  overflow: auto;
 }
 </style>>

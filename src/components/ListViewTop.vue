@@ -184,7 +184,7 @@ export default {
         img.header {
           width: 0.85rem;
           height: 0.85rem;
-          z-index: -2;
+          z-index: -1;
           margin-right: 0.2rem;
           border-radius: 50%;
           transform: translateX(-0.1rem);

@@ -121,8 +121,12 @@ export default createStore({
   actions: {
     async reqLyric(content, options) {
       let result = await getLyric(options.id);
-      content.commit('setLyric', result.data.lrc.lyric);
       console.log(result);
+      if (result.data.nolyric) {
+        content.commit('setLyric', '[00:00.000]暂无歌词');
+      } else {
+        content.commit('setLyric', result.data.lrc.lyric);
+      }
     },
 
     async deleteMusic(content, options) {
@@ -130,7 +134,8 @@ export default createStore({
         console.log('finish');
         return;
       }
-
+      
+      
       if (options.index === content.state.playCurrentIndex) {
         content.state.pause();
         content.commit('deleteListMusic', options.index);

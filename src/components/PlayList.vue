@@ -18,7 +18,10 @@
         <section v-for="(item, index) in playlist"
                  :key="item.id">
           <div class="name"
+               :class="{ active: index === $store.state.playCurrentIndex }"
                @click="changeMusic(index)">
+            <icon v-if="index === $store.state.playCurrentIndex"
+                  iconName="icon-daochu1024-02"></icon>
             {{item.name}} <span> {{' - ' + getArtists(item.ar, item.al.name)}}</span>
           </div>
           <div class="delete"
@@ -128,9 +131,27 @@ export default {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+
           span {
             font-size: 0.16rem;
             color: grey;
+          }
+        }
+
+        .name.active {
+          width: 80%;
+          font-size: 0.3rem;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          color: red;
+          .icon {
+            fill: red;
+            margin-right: 0.2rem;
+          }
+          span {
+            font-size: 0.16rem;
+            color: red;
           }
         }
 

@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="search-music-top">
+    <!-- <div class="search-music-top">
       <div class="left">
         <icon iconName="icon-bofang"></icon>
         <div class="text">
@@ -43,7 +43,7 @@
       <button class="right">
         <icon iconName='icon-xuanze-duoxuan-tianchong'></icon>
       </button>
-    </div>
+    </div> -->
 
     <div class="list">
       <div class="playItem"

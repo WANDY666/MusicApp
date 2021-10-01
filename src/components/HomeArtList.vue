@@ -108,7 +108,8 @@ export default {
 
         img {
           width: 2.2rem;
-          height: 2rem;
+          height: 2.2rem;
+          object-fit: cover;
           border-radius: 0.1rem;
         }
 

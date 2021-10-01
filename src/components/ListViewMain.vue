@@ -1,7 +1,8 @@
 <template>
   <div class="playlist">
     <div class="playlist-top">
-      <div class="left">
+      <div class="left"
+           @click="playAll(list.tracks)">
         <icon iconName="icon-bofang"></icon>
         <div class="text">
           <div class="title">
@@ -74,6 +75,9 @@ export default {
         playlist: JSON.parse(JSON.stringify(tracks)),
         playIndex: index
       });
+    },
+    playAll (tracks) {
+      this.changeMusic(tracks, 0)
     },
     getArtists (artists, album) {
       let names = artists.map((item) => item.name).join(', ');

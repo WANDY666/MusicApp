@@ -90,16 +90,6 @@ export default {
       console.log([this.$refs.audio.paused]);
       if (audio.paused) {
         audio.play();
-        // let playPromise = audio.play();
-        // if (playPromise !== undefined) {
-        //   playPromise.then( => {
-        //     audio
-        //   })
-        //     .catch(error => {
-        //       // Auto-play was prevented
-        //       // Show paused UI.
-        //     });
-        // }
         this.paused = false;
         this.updateTime();
       } else {

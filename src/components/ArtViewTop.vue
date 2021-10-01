@@ -1,5 +1,10 @@
 <template>
   <div class="ArtViewTop">
+    <div class="coverDiv">
+      <img @load="imgLoaded($event)"
+           class="cover"
+           :src="artist.cover">
+    </div>
     <nav>
       <div class="back"
            @click="$router.back()">
@@ -11,13 +16,14 @@
               iconName='icon-liebiao'></icon>
       </div>
     </nav>
-    <img class="cover"
-         :src="artist.cover">
     <main>
       <section class="card">
         <div class="avatar">
-          <img class="avatarImg"
+          <img @load="imgLoaded($event)"
+               @error="imgError()"
+               class="avatarImg"
                :src="user.avatarUrl">
+          <!-- :src="user.avatarUrl"> -->
         </div>
 
         <div class="infocard">
@@ -57,7 +63,7 @@ import Icon from '@/components/Icon.vue'
 
 export default {
   props: {
-    artistId: Number
+    artistId: String
   },
   components: {
     Icon
@@ -69,12 +75,29 @@ export default {
     }
   },
 
-  async mounted () {
+  methods: {
+    imgLoaded (event) {
+      let img = event.currentTarget.parentElement;
+      img.style.zIndex = 'auto';
+      console.log(img);
+    },
+    imgError () {
+      console.log('Error');
+    }
+  },
+
+  async beforeMount () {
     console.log(this.artistId);
     let result = await getArtistDetail(this.artistId);
     this.artist = result.data.data.artist;
-    this.user = result.data.data.user;
-    console.log(this.artist);
+    if (result.data.data.user) {
+      this.user = result.data.data.user;
+    } else {
+      this.user = result.data.data.identify;
+      this.user.description = this.user.imageDesc;
+      this.user.avatarUrl = this.artist.cover;
+    }
+    console.log(result);
   }
 }
 </script>
@@ -88,30 +111,44 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 0 0.2rem 0 0.2rem;
+    .icon {
+      fill: white;
+    }
   }
-  .cover {
-    width: 100vw;
-    height: 40vh;
-    object-fit: cover;
-    border-bottom-left-radius: 50vw 5vw;
-    border-bottom-right-radius: 50vw 5vw;
+  .coverDiv {
+    z-index: -2;
+    position: relative;
+
+    .cover {
+      width: 100vw;
+      height: 40vh;
+      object-fit: cover;
+      border-bottom-left-radius: 50vw 5vw;
+      border-bottom-right-radius: 50vw 5vw;
+    }
   }
 
   main {
     .card {
       position: relative;
+
       top: -0.5rem;
       text-align: center;
       .avatar {
         position: absolute;
         top: 0;
         left: 50%;
+        width: 1.5rem;
+        height: 1.5rem;
         transform: translate(-50%, -50%);
+        z-index: -2;
 
         .avatarImg {
           width: 1.5rem;
+          height: 1.5rem;
+          object-fit: cover;
           border-radius: 0.75rem;
-          border: 3px solid white;
+          border: 2px solid white;
         }
       }
       .infocard {

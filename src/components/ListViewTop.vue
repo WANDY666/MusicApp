@@ -1,5 +1,6 @@
 <template>
-  <div class="listViewTop">
+  <div ref='listViewTop'
+       class="listViewTop">
     <img class="bg"
          :src="list.coverImgUrl">
     <div class="listViewTopNav">
@@ -20,9 +21,6 @@
     </div>
     <div class="content">
       <div class="content-left">
-        <img class="default"
-             src="../assets/image/user.png"
-             alt="">
         <img ref='cover'
              class="cover"
              :src="list.coverImgUrl"
@@ -36,9 +34,6 @@
       <div class="content-right">
         <h3>{{list.name}}</h3>
         <div class="author">
-          <img class="default"
-               src="../assets/image/user.png"
-               alt="">
           <img ref='header'
                :src="list.creator.avatarUrl"
                class="header"
@@ -83,8 +78,9 @@ export default {
     Icon
   },
   methods: {
-    finishImg (img) {
-      this.$refs[img].style.zIndex = -1;
+    finishImg () {
+      console.log(this);
+      this.$refs.listViewTop.style.backgroundColor = 'transparent';
     },
     playCount (num) {
       let res = num;
@@ -105,6 +101,8 @@ export default {
 .listViewTop {
   width: 100%;
   padding: 0 0.4rem;
+  background-color: white;
+
   .bg {
     position: fixed;
     left: 0;
@@ -114,6 +112,7 @@ export default {
     z-index: -1;
     filter: blur(40px);
   }
+
   .listViewTopNav {
     display: flex;
     justify-content: space-between;
@@ -145,18 +144,11 @@ export default {
 
     .content-left {
       position: relative;
-      .default {
-        width: 2.7rem;
-        height: 2.7rem;
-        z-index: -1;
-        position: absolute;
-        background-color: white;
-      }
 
       .cover {
-        width: 2.7rem;
-        height: 2.7rem;
-        z-index: -2;
+        width: 2.8rem;
+        height: 2.8rem;
+        z-index: -1;
         position: relative;
       }
 
@@ -189,20 +181,13 @@ export default {
         margin: 0.2rem 0;
         position: relative;
 
-        img.default {
-          width: 0.6rem;
-          height: 0.6rem;
-          margin-right: 0.2rem;
-          position: absolute;
-          z-index: -1;
-          background-color: grey;
-        }
-
         img.header {
-          width: 0.6rem;
+          width: 0.85rem;
+          height: 0.85rem;
           z-index: -2;
-          height: 0.6rem;
           margin-right: 0.2rem;
+          border-radius: 50%;
+          transform: translateX(-0.1rem);
         }
 
         span {

@@ -8,7 +8,7 @@
     <div class="wrapper">
       <div ref='mlist'
            class="mlist">
-        <router-link :to="{path:'/listview', query:{id:item.id}}"
+        <router-link :to="{path:'/artPaper', query:{id:item.id}}"
                      class="swiper-slide"
                      v-for="(item, index) in artists"
                      :key="index">
@@ -25,12 +25,9 @@
 </template>
 
 <script>
-import Icon from '@/components/Icon.vue';
-import { getTopArtists, getArtistSongTop } from '@/api/index.js'
-import { remPx } from '@/../public/js/rem.js'
+import { getTopArtists } from '@/api/index.js'
 
 export default {
-  components: { Icon },
   data () {
     return {
       artists: [],

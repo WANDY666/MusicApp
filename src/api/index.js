@@ -51,6 +51,10 @@ export function getMusicDetail(musicIds) {
   return axios.get(`${baseUrl}/song/detail?ids=${musicIds}`)
 }
 
+export function getArtistDetail(artistId) {
+  return axios.get(`${corsUrl}/artist/head/info/get?id=${artistId}`)
+}
+
 export function getTopArtists() {
   return axios.get(`${baseUrl}/top/artists?limit=6`)
 }
@@ -58,3 +62,4 @@ export function getTopArtists() {
 export function getArtistSongTop(artistId) {
   return axios.get(`${baseUrl}/artist/top/song?id=${artistId}`);
 }
+

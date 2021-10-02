@@ -2,14 +2,19 @@
   <div class="app">
     <router-view />
     <play-controller ref="playController"></play-controller>
+    <toast type='error'
+           note='歌曲播放失败'></toast>
   </div>
 </template>
 
 <script>
 import PlayController from '@/components/PlayController.vue'
+import Toast from '@/components/Toast.vue'
+
 export default {
   components: {
-    PlayController
+    PlayController,
+    Toast
   },
   beforeMount () {
     if (localStorage.getItem('playlist')) {

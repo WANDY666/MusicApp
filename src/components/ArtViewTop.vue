@@ -96,25 +96,25 @@ export default {
       console.log('Error');
     },
     touchstart (event) {
-      this.$refs.cover.style.transition = 'all 0.02s ease-in';
+      this.$refs.cover.style.transition = 'none';
     },
     touchmove (event) {
       let scroller = event.currentTarget;
-      if (this.touchLock) {
-        return;
-      }
-      this.touchLock = true;
-      setTimeout(() => {
-        this.touchLock = false;
-      }, 20);
+      // if (this.touchLock) {
+      //   return;
+      // }
+      // this.touchLock = true;
+      // setTimeout(() => {
+      //   this.touchLock = false;
+      // }, 16);
       if (scroller.scrollTop === 0) {
         if (this.last === 0) {
           this.last = event.targetTouches[0].pageY;
           return;
         } else {
           this.$refs.cover.style.height = Math.min(this.maxHeight, this.coverHeight + event.targetTouches[0].pageY - this.last) + 'px';
-          console.log([this.$refs.cover]);
-          console.log(this.coverHeight + event.targetTouches[0].pageY - this.last);
+          // console.log([this.$refs.cover]);
+          // console.log(this.coverHeight + event.targetTouches[0].pageY - this.last);
         }
       } else {
         this.last = 0;
@@ -148,7 +148,7 @@ export default {
       } else {
         this.passTop = false;
       }
-      console.log(this.scrollTop, height);
+      // console.log(this.scrollTop, height);
     }
   },
 

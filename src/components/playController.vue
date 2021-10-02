@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div class="space">
@@ -33,6 +32,7 @@
                   v-show="showMusic"
                   :music='currentMusic'></play-music>
       <audio ref='audio'
+             @error="audioError($event)"
              @ended="playNext()"
              :src="`https://music.163.com/song/media/outer/url?id=${currentMusic.id}.mp3`"></audio>
     </div>
@@ -78,6 +78,10 @@ export default {
   methods: {
     toShowPlayList () {
       this.$store.commit('setShowPlayList', !this.showPlayList);
+    },
+    audioError (event) {
+      let audio = event.currentTarget;
+      console.log(audio.error.code);
     },
     pause () {
       if (!this.$refs.audio.paused) {

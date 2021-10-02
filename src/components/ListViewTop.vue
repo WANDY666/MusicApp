@@ -110,7 +110,7 @@ export default {
     width: 100%;
     height: auto;
     z-index: -1;
-    filter: blur(40px);
+    filter: blur(50px);
   }
 
   .listViewTopNav {
@@ -150,6 +150,7 @@ export default {
         height: 2.8rem;
         z-index: -1;
         position: relative;
+        border-radius: 0.3rem;
       }
 
       .count {

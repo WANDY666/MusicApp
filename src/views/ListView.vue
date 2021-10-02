@@ -71,8 +71,7 @@ export default {
       setTimeout(
         () => {
           this.scrollLock = false;
-        }, 50);
-
+        }, 20);
     },
   }
 }

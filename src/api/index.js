@@ -60,6 +60,6 @@ export function getTopArtists() {
 }
 
 export function getArtistSongTop(artistId) {
-  return axios.get(`${baseUrl}/artist/top/song?id=${artistId}`);
+  return axios.get(`${corsUrl}/artist/top/song?id=${artistId}`);
 }
 

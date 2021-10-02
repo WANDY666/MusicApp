@@ -1,36 +1,34 @@
 <template>
-  <div class="playlist">
-    <div class="playlist-top">
+  <div class="ArtViewMain">
+    <div class="ArtViewMain-top">
       <div class="left"
-           @click="playAll(list.tracks)">
+           @click="playAll(list)">
         <icon iconName="icon-bofang"></icon>
         <div class="text">
           <div class="title">
-            播放全部
-          </div>
-          <div class="num">
-            （共{{list.trackCount}}首）
+            播放热门50首
           </div>
         </div>
       </div>
 
       <button class="right">
-        + 收藏（{{playCount(list.subscribedCount)}}）
+        + 收藏
       </button>
     </div>
 
     <div class="list">
       <div class="playItem"
-           v-for="(item, index) in list.tracks"
+           v-for="(item, index) in list"
            :key="index">
         <div class="left"
-             @click="changeMusic(list.tracks, index)">
+             @click="changeMusic(list, index)">
           <div class="index">
             {{index + 1}}
           </div>
           <div class="content">
             <div class="title">{{item.name}}</div>
-            <div class="author">
+            <div class="author"
+                 :class="{vip: item.copyright === 1}">
               {{getArtists(item.ar, item.al)}}
             </div>
           </div>
@@ -47,26 +45,26 @@
 <script>
 import Icon from '@/components/Icon.vue'
 import { mapMutations } from 'vuex'
+import { getArtistSongTop } from '@/api/index.js'
 
 export default {
   props: {
-    list: Object
+    artistId: String
+  },
+  data () {
+    return {
+      list: []
+    }
   },
   components: {
     Icon
   },
+  async beforeMount () {
+    let result = await getArtistSongTop(this.artistId);
+    console.log(result);
+    this.list = result.data.songs;
+  },
   methods: {
-    playCount (num) {
-      let res = num;
-      if (num >= 100000000) {
-        res = num / 100000000;
-        res = res.toFixed(2) + '亿';
-      } else if (num >= 10000) {
-        res = num / 10000;
-        res = res.toFixed(2) + '万'
-      }
-      return res;
-    },
     ...mapMutations(
       ['setPlayIndex', 'setPlaylist']
     ),
@@ -91,16 +89,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.playlist {
+.ArtViewMain {
   width: 100%;
   padding: 0 0.4rem;
   margin-top: 0.2rem;
-  background-color: white;
+  background-color: rgb(56, 56, 56);
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
   overflow: hidden;
 
-  .playlist-top {
+  .ArtViewMain-top {
     width: 100%;
     height: 1rem;
     display: flex;
@@ -110,18 +108,15 @@ export default {
     .left {
       display: flex;
       align-items: center;
+      color: white;
       .icon {
         width: 0.6rem;
         height: 0.6rem;
+        fill: white;
       }
       .title {
         font-size: 0.34rem;
-        font-weight: 900;
-      }
-
-      .num {
-        font-size: 0.24rem;
-        color: #ccc;
+        font-weight: 600;
       }
       .text {
         display: flex;
@@ -140,6 +135,7 @@ export default {
     }
   }
   .list {
+    color: white;
     .playItem {
       display: flex;
       justify-content: space-between;
@@ -147,7 +143,7 @@ export default {
       .left {
         display: flex;
         align-items: center;
-        color: #666;
+        color: rgb(143, 143, 143);
         .index {
           width: 0.3rem;
           font-size: 0.3rem;
@@ -159,11 +155,22 @@ export default {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            color: black;
+            color: white;
             font-size: 0.3rem;
-            font-weight: 600;
-            margin-bottom: 0.1rem;
+            font-weight: 500;
+            padding-bottom: 0.1rem;
           }
+
+          // .vip::before {
+          //   content: 'VIP';
+          //   border: 2px solid red;
+
+          //   border-radius: 20%;
+          //   font-weight: 600;
+          //   font-size: 0.2rem;
+          //   color: red;
+          //   margin-right: 0.1rem;
+          // }
 
           .author {
             font-size: 0.24rem;

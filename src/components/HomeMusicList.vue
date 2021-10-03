@@ -2,7 +2,8 @@
   <div class="musicList">
     <div class="music-list-top">
       <div class="title">发现好歌单</div>
-      <div class="more">查看更多</div>
+      <div class="more"
+           @click="showToast">查看更多</div>
     </div>
 
     <div class="wrapper"
@@ -54,6 +55,12 @@ export default {
   },
 
   methods: {
+    showToast () {
+      this.$store.dispatch('showToast', {
+        type: 'error',
+        note: '功能暂未开发'
+      })
+    },
     playCount (num) {
       let res = num;
       if (num >= 100000000) {

@@ -16,6 +16,7 @@
       </div>
       <div>
         <icon style="fill: white"
+              @click="showToast"
               iconName='icon-liebiao'></icon>
       </div>
     </nav>
@@ -87,6 +88,12 @@ export default {
   },
 
   methods: {
+    showToast () {
+      this.$store.dispatch('showToast', {
+        type: 'error',
+        note: '功能暂未开发'
+      })
+    },
     imgLoaded (event) {
       let img = event.currentTarget.parentElement;
       img.style.zIndex = 'auto';

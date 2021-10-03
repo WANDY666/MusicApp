@@ -11,12 +11,11 @@
           歌单
         </div>
       </div>
-      <div class="right">
+      <div class="right"
+           @click="showToast()">
         <icon class="search"
-              @click="$router.push('searchView')"
               iconName='icon-sousuo'></icon>
-        <icon style="fill: red"
-              iconName='icon-liebiao'></icon>
+        <icon iconName='icon-liebiao'></icon>
       </div>
     </div>
     <div class="content">
@@ -46,7 +45,8 @@
       </div>
     </div>
 
-    <div class="HomeIconList">
+    <div class="HomeIconList"
+         @click="showToast()">
       <div class="iconItem">
         <icon iconName='icon-dilanxianxingiconyihuifu_huabanfuben'></icon>
         <span>{{ list.commentCount }}</span>
@@ -92,6 +92,12 @@ export default {
         res = res.toFixed(2) + '万'
       }
       return res;
+    },
+    showToast () {
+      this.$store.dispatch('showToast', {
+        type: 'error',
+        note: '功能暂未开发'
+      })
     }
   }
 }

@@ -2,14 +2,14 @@
   <div class="app">
     <router-view />
     <play-controller ref="playController"></play-controller>
-    <toast type='error'
-           note='歌曲播放失败'></toast>
+    <toast v-show='showToast' ref="toast"></toast>
   </div>
 </template>
 
 <script>
 import PlayController from '@/components/PlayController.vue'
 import Toast from '@/components/Toast.vue'
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -21,7 +21,17 @@ export default {
       this.keywordList = JSON.parse(localStorage.getItem('playlist'));
     }
   },
+  computed: {
+    ...mapState(['toastOptions']),
+  },
+  data() {
+    return {
+      showToast: false
+    }
+  },
   mounted () {
+    console.log('App mounted');
+    this.$store.commit('setToast', this.$refs.toast);
     if (localStorage.getItem('userData')) {
       let userData = JSON.parse(localStorage.getItem('userData'));
       this.$store.commit('setUser', userData);

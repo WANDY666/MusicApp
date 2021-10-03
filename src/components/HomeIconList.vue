@@ -1,5 +1,6 @@
 <template>
-  <div class="HomeIconList">
+  <div class="HomeIconList"
+       @click="showToast">
     <div class="iconItem">
       <icon class="icon"
             iconName="icon-fanjutuijian"
@@ -29,6 +30,17 @@ import Icon from '@/components/Icon.vue'
 export default {
   components: {
     Icon
+  },
+  methods: {
+    showToast (event) {
+      if (event.target.className !== 'HomeIconList') {
+        this.$store.dispatch('showToast', {
+          type: 'error',
+          note: '功能暂未开发'
+        })
+      }
+      console.log([event.target]);
+    }
   }
 }
 </script>

@@ -43,6 +43,7 @@ export default createStore({
     },
     play: {},
     pause: {},
+    toast: {},
     showPlayList: false
   },
   getters: {
@@ -50,6 +51,7 @@ export default createStore({
       console.log("getcurrentMusic");
       return state.playlist[state.playCurrentIndex];
     },
+
     lyrics: function (state) {
       let arr = state.lyric.split(/\n/g).map((item) => {
         let min = parseInt(item.slice(1, 3));
@@ -83,6 +85,9 @@ export default createStore({
   mutations: {
     setPlaylist: function (state, value) {
       state.playlist = value;
+    },
+    setToast(state, value) {
+      state.toast = value;
     },
     setShowPlayList(state, value) {
       state.showPlayList = value;
@@ -119,6 +124,10 @@ export default createStore({
     }
   },
   actions: {
+    showToast({state}, options) {
+      state.toast.showToast(options);
+    },
+
     async reqLyric(content, options) {
       let result = await getLyric(options.id);
       console.log(result);

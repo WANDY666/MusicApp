@@ -81,7 +81,14 @@ export default {
     },
     audioError (event) {
       let audio = event.currentTarget;
+      this.$store.dispatch('showToast', {
+        type: 'error',
+        note: '歌曲播放失败'
+      });
       console.log(audio.error.code);
+      setTimeout(
+        this.playNext(), 1000
+      );
     },
     pause () {
       if (!this.$refs.audio.paused) {

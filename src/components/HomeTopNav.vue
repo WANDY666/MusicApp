@@ -9,10 +9,8 @@
             @click="$router.push('User')">我的</span>
       <span style="font-weight: 900"
             class="navBtn">发现</span>
-      <span class="navBtn"
-            style="color: red">云村</span>
-      <span class="navBtn"
-            style="color: red">视频</span>
+      <span class="navBtn">云村</span>
+      <span class="navBtn">视频</span>
     </div>
     <div class="topRight">
       <icon @click="$router.push('searchView')"
@@ -39,6 +37,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0 0.2rem;
+  color: white;
 }
 
 .topCenter {

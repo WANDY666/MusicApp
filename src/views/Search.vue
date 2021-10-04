@@ -184,10 +184,11 @@ export default {
   width: 100%;
   height: calc(100vh - 1.2rem);
   padding: 0.2rem 0.4rem 0 0.4rem;
-  background-color: white;
+  // background-color: rgb(36, 36, 36);
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
   overflow: auto;
+  color: white;
 
   .SearchTop {
     width: 100%;
@@ -202,12 +203,12 @@ export default {
       top: 0;
       left: 0;
       padding: 0.2rem;
-      background-color: white;
+      background-color: rgb(88, 88, 88);
 
       .icon {
         width: 0.45rem;
         height: 0.45rem;
-        fill: #444;
+        fill: white;
       }
 
       .right {
@@ -218,8 +219,10 @@ export default {
           border: none;
           outline: none;
           font-size: 0.45rem;
-          border-bottom: 1px solid #666;
+          border-bottom: 1px solid rgb(66, 66, 66);
           width: 100%;
+          color: white;
+          background-color: transparent;
         }
       }
     }
@@ -246,8 +249,9 @@ export default {
         flex-wrap: wrap;
         flex: 1;
         .keyword {
-          background-color: #eee;
+          background-color: rgb(88, 88, 88);
           height: 0.6rem;
+          color: white;
           padding: 0 0.2rem;
           border-radius: 0.4rem;
           line-height: 0.6rem;
@@ -309,7 +313,7 @@ export default {
       .left {
         display: flex;
         align-items: center;
-        color: #666;
+        color: rgb(148, 146, 146);
         .index {
           width: 0.3rem;
           font-size: 0.3rem;
@@ -321,7 +325,7 @@ export default {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            color: black;
+            color: white;
             font-size: 0.3rem;
             font-weight: 600;
             margin-bottom: 0.1rem;

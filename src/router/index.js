@@ -29,6 +29,11 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/listSquare',
+    name: 'listSquare',
+    component: () => import('../views/ListSquare.vue')
+  },
+  {
     path: '/User',
     name: 'User',
 

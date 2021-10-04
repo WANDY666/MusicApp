@@ -73,6 +73,7 @@ export default {
 .artists {
   width: 7.5rem;
   padding: 0 0.15rem;
+  color: white;
 
   .music-list-top {
     display: flex;
@@ -127,6 +128,7 @@ export default {
           line-height: 0.4rem;
           font-weight: 900;
           text-align: center;
+          color: white;
         }
 
         .count {

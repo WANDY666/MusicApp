@@ -95,10 +95,11 @@ export default {
   width: 100%;
   padding: 0 0.4rem;
   margin-top: 0.2rem;
-  background-color: white;
+  background-color: rgb(39, 39, 39);
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
   overflow: hidden;
+  color: white;
 
   .playlist-top {
     width: 100%;
@@ -147,7 +148,7 @@ export default {
       .left {
         display: flex;
         align-items: center;
-        color: #666;
+        color: rgb(168, 168, 168);
         .index {
           width: 0.3rem;
           font-size: 0.3rem;
@@ -159,7 +160,7 @@ export default {
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            color: black;
+            color: white;
             font-size: 0.3rem;
             font-weight: 600;
             margin-bottom: 0.1rem;

@@ -107,7 +107,6 @@ export default {
 .listViewTop {
   width: 100%;
   padding: 0 0.4rem;
-  background-color: white;
 
   .bg {
     position: fixed;
@@ -205,9 +204,9 @@ export default {
       .description {
         font-size: 0.24rem;
         color: white;
+        // text-shadow: 0.005rem 0.005rem black;
         overflow: hidden;
         text-overflow: ellipsis;
-        // text-shadow: 0.005rem 0.005rem black;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;

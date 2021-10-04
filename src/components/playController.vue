@@ -142,6 +142,7 @@ export default {
   height: 1.2rem;
 }
 .playController {
+  color: white;
   width: 7.5rem;
   height: 1.2rem;
   position: fixed;
@@ -151,7 +152,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid #ccc;
-  background-color: white;
+  background-color: rgb(49, 49, 49);
   .left {
     display: flex;
     align-items: center;

@@ -2,8 +2,8 @@
   <div class="musicList">
     <div class="music-list-top">
       <div class="title">发现好歌单</div>
-      <div class="more"
-           @click="showToast">查看更多</div>
+      <router-link :to="{path:'/ListSquare'}"
+                   class="more">查看更多</router-link>
     </div>
 
     <div class="wrapper"
@@ -145,6 +145,7 @@ export default {
 .musicList {
   width: 7.5rem;
   padding: 0 0.15rem;
+  color: white;
 
   .music-list-top {
     display: flex;
@@ -157,6 +158,8 @@ export default {
     }
 
     .more {
+      color: white;
+
       border: 1px solid #ccc;
       border-radius: 0.1rem;
       font-size: 0.24rem;
@@ -196,6 +199,7 @@ export default {
           height: 0.6;
           font-size: 0.24rem;
           line-height: 0.4rem;
+          color: white;
         }
 
         .count {

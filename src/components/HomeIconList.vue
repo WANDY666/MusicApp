@@ -50,6 +50,7 @@ export default {
   display: flex;
   justify-content: space-around;
   padding: 0.4rem;
+  color: white;
 
   .iconItem {
     display: flex;

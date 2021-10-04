@@ -63,3 +63,10 @@ export function getArtistSongTop(artistId) {
   return axios.get(`${corsUrl}/artist/top/song?id=${artistId}`);
 }
 
+export function getPlaylistHot() {
+  return axios.get(`${baseUrl}/playlist/hot`);
+}
+
+export function getTopPlaylist({tag, offset, limit}) {
+  return axios.get(`${baseUrl}/top/playlist?limit=${limit}&cat=${tag}&${offset}`)
+}

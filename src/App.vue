@@ -2,7 +2,9 @@
   <div class="app">
     <router-view />
     <play-controller ref="playController"></play-controller>
-    <toast v-show='showToast' ref="toast"></toast>
+    <toast v-show='showToast'
+           ref="toast"></toast>
+    <div class="bg"></div>
   </div>
 </template>
 
@@ -24,7 +26,7 @@ export default {
   computed: {
     ...mapState(['toastOptions']),
   },
-  data() {
+  data () {
     return {
       showToast: false
     }
@@ -50,7 +52,19 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Microsoft YaHei';
+}
+
+#app {
+}
+
+.bg {
+  position: fixed;
+  top: 0;
+  height: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -100;
+  background-color: rgb(66, 66, 66);
 }
 
 a {

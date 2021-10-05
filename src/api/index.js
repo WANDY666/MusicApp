@@ -68,5 +68,5 @@ export function getPlaylistHot() {
 }
 
 export function getTopPlaylist({tag, offset, limit}) {
-  return axios.get(`${baseUrl}/top/playlist?limit=${limit}&cat=${tag}&${offset}`)
+  return axios.get(`${baseUrl}/top/playlist?limit=${limit}&offset=${offset}&cat=${tag}`)
 }

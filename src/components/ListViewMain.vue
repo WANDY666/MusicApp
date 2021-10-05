@@ -95,7 +95,7 @@ export default {
   width: 100%;
   padding: 0 0.4rem;
   margin-top: 0.2rem;
-  background-color: rgb(39, 39, 39);
+  background-color: rgb(56, 56, 56);
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
   overflow: hidden;

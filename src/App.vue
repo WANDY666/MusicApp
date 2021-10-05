@@ -4,7 +4,7 @@
     <play-controller ref="playController"></play-controller>
     <toast v-show='showToast'
            ref="toast"></toast>
-    <div class="bg"></div>
+    <div class="bgColor"></div>
   </div>
 </template>
 
@@ -54,10 +54,7 @@ export default {
   box-sizing: border-box;
 }
 
-#app {
-}
-
-.bg {
+.bgColor {
   position: fixed;
   top: 0;
   height: 0;

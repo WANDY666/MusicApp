@@ -107,6 +107,7 @@ export default {
 .listViewTop {
   width: 100%;
   padding: 0 0.4rem;
+  background-color: grey;
 
   .bg {
     position: fixed;

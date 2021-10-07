@@ -70,3 +70,11 @@ export function getPlaylistHot() {
 export function getTopPlaylist({tag, offset, limit}) {
   return axios.get(`${baseUrl}/top/playlist?limit=${limit}&offset=${offset}&cat=${tag}`)
 }
+
+export function getArtistList({ area, limit, offset}) {
+  return axios.get(`${baseUrl}/artist/list?limit=${limit}&offset=${offset}&area=${area}`)
+}
+
+export function getSearchHot() {
+  return axios.get(`${baseUrl}/search/hot/detail`)
+}

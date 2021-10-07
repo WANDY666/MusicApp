@@ -1,5 +1,5 @@
 <template>
-  <div class="ListSquare">
+  <div class="ArtSquare">
     <img v-show="showLoading"
          class="loading"
          src="@/assets/image/loading.gif">
@@ -8,7 +8,7 @@
            @click="$router.back()">
         <icon iconName='icon-fanhuizuojiantou'></icon>
         <div class="title">
-          歌单广场
+          歌手广场
         </div>
       </div>
     </header>
@@ -16,9 +16,9 @@
          @click="switchTag($event)">
       <span :index='index'
             :class="{ active : index === currentIndex}"
-            v-for="(item, index) in hotPlaylistTags"
+            v-for="(item, index) in areas"
             :key="item.id">
-        {{item.name}}
+        {{item.area}}
       </span>
     </nav>
 
@@ -28,20 +28,21 @@
           @touchend='touchend'>
       <div ref="real"
            class="real">
-        <section v-for="(taglist, index) in lists"
-                 :key="taglist.id">
+        <section @error.capture="imgError"
+                 v-for="(areaList, index) in lists"
+                 :key="areaList.id">
           <!-- <div class="space">占位</div> -->
           <article @scroll="scrollSection">
-            <router-link :to="{path:'/listview', query:{id:list.id}}"
+            <router-link :to="{path:'/artPaper', query:{id:artist.id}}"
                          class="card"
-                         v-for="(list, index) in taglist.playlists"
-                         :key="list.id">
-              <img :src="list.coverImgUrl"
-                   alt="list.name">
-              <div class="name">{{list.name}}</div>
+                         v-for="(artist, index) in areaList.artists"
+                         :key="artist.id">
+              <img :src="artist.img1v1Url"
+                   alt="artist.name">
+              <div class="name">{{artist.name}}</div>
               <div class="count">
                 <icon iconName="icon-play"></icon>
-                {{playCount(list.playCount)}}
+                {{playCount(artist.musicSize) + '首'}}
               </div>
             </router-link>
           </article>
@@ -53,13 +54,20 @@
 
 <script>
 import Icon from '@/components/Icon.vue';
-import { getPlaylistHot, getTopPlaylist } from '@/api/index.js';
+import { getArtistList } from '@/api/index.js';
 
 export default {
   components: { Icon },
   data () {
     return {
-      hotPlaylistTags: [],
+      areas: [
+        { id: -1, area: '全部' },
+        { id: 7, area: '华语' },
+        { id: 96, area: '欧美' },
+        { id: 8, area: '日本' },
+        { id: 16, area: '韩国' },
+        { id: 0, area: '其他' },
+      ],
       currentIndex: 0,
       touchstartX: 0,
       touchstartY: 0,
@@ -74,28 +82,30 @@ export default {
     }
   },
   async created () {
-    let res = await getPlaylistHot();
-    console.log(res);
-    this.hotPlaylistTags = res.data.tags.filter((tag) => {
-      return tag.name.length < 4;
-    });
-    this.hotPlaylistTags.forEach(async (ele, index) => {
+    this.areas.forEach(async (ele, index) => {
       this.lists[index] = {
         offset: 0,
         limit: 12,
-        tag: ele.name,
+        id: ele.id,
+        area: ele.id
       };
-      let listRes = await getTopPlaylist({
+      let listRes = await getArtistList({
         limit: this.lists[index].limit,
-        offset: this.lists[index].offset++,
-        tag: this.lists[index].tag
+        offset: this.lists[this.currentIndex].limit * this.lists[index].offset++,
+        area: this.lists[index].area
       });
-      // console.log(listRes);
-      this.lists[index].playlists = listRes.data.playlists;
+      console.log(listRes);
+      this.lists[index].artists = listRes.data.artists;
     });
   },
 
   methods: {
+    imgError (event) {
+      if (event.target.tagName === 'IMG') {
+        console.log([event.target]);
+        event.target.src = 'http://p1.music.126.net/u9WtIRsF39ayeb5HX7bm8A==/109951165806093811.jpg';
+      }
+    },
     async scrollSection (event) {
       if (this.scrollSectionId !== 0) {
         clearTimeout(this.scrollSectionId);
@@ -107,21 +117,23 @@ export default {
         let clientHeight = target.clientHeight;
         if (scrollHeight - 60 <= scrollTop + clientHeight) {
           this.showLoading = true;
-          let listRes = await getTopPlaylist({
+          let listRes = await getArtistList({
             limit: this.lists[this.currentIndex].limit,
             offset: this.lists[this.currentIndex].limit * this.lists[this.currentIndex].offset++,
-            tag: this.lists[this.currentIndex].tag
+            area: this.lists[this.currentIndex].area
           });
-          this.showLoading = false;
+          this.lists[this.currentIndex].artists = this.lists[this.currentIndex].artists.concat(listRes.data.artists);
 
-          console.log(listRes.data.playlists);
-          this.lists[this.currentIndex].playlists = this.lists[this.currentIndex].playlists.concat(listRes.data.playlists);
           setTimeout(() => {
+            console.log(listRes);
+            this.showLoading = false;
+            console.log(listRes);
+            console.log(listRes.data.artists);
             target.scrollTo({
               top: target.scrollTop + 100,
               behavior: 'smooth'
             });
-          }, 0);
+          }, 1000);
 
         }
         this.scrollSectionId = 0;
@@ -141,6 +153,7 @@ export default {
 
       if (Math.abs(this.distanceY) * 2 < Math.abs(this.distanceX)) {
         this.$refs.real.style.left = (this.lastLocation + this.distanceX) + 'px';
+        console.log('懂啊你們');
       }
       // console.log(distanceX, this.lastLocation);
       // this.$refs.main.scrollLeft = this.$refs.main.scrollLeft + 
@@ -208,14 +221,14 @@ export default {
 
   // offsetHeight: 20
   // offsetLeft: 15
-  // offsetParent: body
+  // offsetParenht: body
   // offsetTop: 46
   // offsetWidth: 30
 }
 </script>
 
 <style lang="less" scoped>
-.ListSquare {
+.ArtSquare {
   width: 100vw;
   height: calc(100vh - 1.2rem);
   background-color: rgb(58, 58, 58);
@@ -323,7 +336,8 @@ export default {
             img {
               width: 2.2rem;
               height: 2.2rem;
-              border-radius: 0.2rem;
+              object-fit: cover;
+              border-radius: 0.1rem;
             }
 
             .name {
@@ -331,6 +345,8 @@ export default {
               height: 0.6;
               font-size: 0.24rem;
               line-height: 0.4rem;
+              font-weight: 900;
+              text-align: center;
               color: white;
 
               overflow: hidden;

@@ -45,7 +45,31 @@
       </button>
     </div> -->
 
-    <div class="list">
+    <header v-show="showTopList"
+            class="topList">
+      <main @click="topSearch($event)">
+        <div :index='index'
+             class="top"
+             v-for="(top, index) in topList"
+             :key="index">
+          <div :index='index'
+               class="index">
+            {{index +  1}}
+          </div>
+          <div :index='index'
+               class="searchWord">
+            {{top.searchWord}}
+          </div>
+          <img :index='index'
+               v-if='top.iconUrl !== ""'
+               :src="top.iconUrl"
+               alt="">
+        </div>
+      </main>
+    </header>
+
+    <div v-show="!showTopList"
+         class="list">
       <div class="playItem"
            v-for="(item, index) in songs"
            :key="index">
@@ -82,7 +106,7 @@
 </template>
 
 <script>
-import { searchMusic } from '@/api/index.js';
+import { searchMusic, getSearchHot } from '@/api/index.js';
 import Icon from '@/components/Icon.vue';
 import { mapMutations } from 'vuex';
 
@@ -94,25 +118,43 @@ export default {
       keywordList: [],
       searchKey: '',
       lastSearch: '',
+      showTopList: true,
+      topList: [],
       offset: 0
     }
   },
-  beforeMount () {
+  async created () {
     if (localStorage.getItem('keywordList')) {
       console.log(localStorage.getItem('keywordList'));
       this.keywordList = JSON.parse(localStorage.getItem('keywordList'));
     }
+
+    let result = await getSearchHot();
+    console.log(result);
+    this.topList = result.data.data;
   },
   components: {
     Icon
   },
   methods: {
+    topSearch (event) {
+      let target = event.target;
+      let index = target.getAttribute('index');
+      console.log(index);
+      if (index) {
+        index = parseInt(index);
+        console.log([event.target], index);
+        this.searchKey = this.topList[index].searchWord;
+        this.saveKeyword();
+      }
+    },
     async showMoreRes () {
       let result = await searchMusic(this.lastSearch, ++this.offset);
       this.songs = this.songs.concat(result.data.result.songs);
     },
     async saveKeyword () {
       if (this.searchKey) {
+        this.showTopList = false;
         console.log(this.searchKey);
         let index = this.keywordList.indexOf(this.searchKey);
         if (index !== -1) {
@@ -189,6 +231,42 @@ export default {
   border-top-right-radius: 0.3rem;
   overflow: auto;
   color: white;
+
+  .topList {
+    width: 6.8rem;
+    background-color: rgb(88, 88, 88);
+    border-radius: 0.2rem;
+    margin: 0.2rem auto;
+    padding: 0.5rem 0 0.4rem 0.3rem;
+    main {
+      font-size: 0.3rem;
+      display: grid;
+      grid-template-columns: repeat(2, 3.1rem);
+      row-gap: 0.2rem;
+      // align-items: center;
+      // justify-items: center;
+      .top {
+        display: flex;
+        align-items: center;
+        margin-right: 0.2rem;
+        .index {
+          flex-shrink: 0;
+          width: 0.4rem;
+          margin-right: 0.2rem;
+        }
+        .searchWord {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          margin-right: 0.2rem;
+        }
+
+        img {
+          height: 0.3rem;
+        }
+      }
+    }
+  }
 
   .SearchTop {
     width: 100%;
@@ -306,6 +384,10 @@ export default {
   }
 
   .list {
+    background-color: rgb(88, 88, 88);
+    border-radius: 0.2rem;
+    margin-top: 0.4rem;
+    padding: 0.2rem;
     .playItem {
       display: flex;
       justify-content: space-between;
@@ -320,7 +402,7 @@ export default {
         }
         .content {
           margin-left: 0.4rem;
-          width: 5rem;
+          width: 4.2rem;
           .title {
             overflow: hidden;
             white-space: nowrap;

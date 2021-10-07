@@ -2,8 +2,8 @@
   <div class="artists">
     <div class="music-list-top">
       <div class="title">热门歌手</div>
-      <div class="more"
-           @click="showToast">查看更多</div>
+      <router-link class="more"
+                   :to="{path:'/artSquare'}">查看更多</router-link>
     </div>
 
     <div class="wrapper">
@@ -90,6 +90,7 @@ export default {
       border-radius: 0.1rem;
       font-size: 0.24rem;
       height: 0.5rem;
+      color: white;
       width: 1.2rem;
       text-align: center;
       line-height: 0.5rem;

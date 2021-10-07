@@ -52,21 +52,21 @@ export default {
       if (this.scrollLock) {
         return;
       }
-      console.log('Scroll', [this.$refs.listView]);
+      // console.log('Scroll', [this.$refs.listView]);
       this.scrollLock = true;
       let scrollHeight = this.$refs.listView.scrollHeight;
       let scrollTop = this.$refs.listView.scrollTop;
       let clientHeight = this.$refs.listView.clientHeight;
-      console.log(scrollHeight);
-      console.log(scrollTop);
-      console.log(clientHeight);
+      // console.log(scrollHeight);
+      // console.log(scrollTop);
+      // console.log(clientHeight);
       if (scrollHeight - 30 <= scrollTop + clientHeight) {
         let ids = this.list.trackIds.slice(this.loadedCount, this.loadedCount + this.singleLoadNum).map(
           item => item.id
         ).join(',');
         let result = await getMusicDetail(ids);
         this.list.tracks = this.list.tracks.concat(result.data.songs);
-        console.log(result);
+        // console.log(result);
       }
       setTimeout(
         () => {

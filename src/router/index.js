@@ -34,6 +34,11 @@ const routes = [
     component: () => import('../views/ListSquare.vue')
   },
   {
+    path: '/artSquare',
+    name: 'artSquare',
+    component: () => import('../views/ArtSquare.vue')
+  },
+  {
     path: '/User',
     name: 'User',
 

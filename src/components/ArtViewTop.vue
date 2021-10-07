@@ -159,18 +159,18 @@ export default {
     }
   },
 
-  async beforeMount () {
+  async created () {
     console.log(this.artistId);
     let result = await getArtistDetail(this.artistId);
+    console.log(result);
     this.artist = result.data.data.artist;
     if (result.data.data.user) {
       this.user = result.data.data.user;
-    } else {
+    } else if (result.data.data.identify) {
       this.user = result.data.data.identify;
       this.user.description = this.user.imageDesc;
       this.user.avatarUrl = this.artist.cover;
     }
-    console.log(result);
   },
 
 }

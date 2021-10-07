@@ -188,7 +188,7 @@ export default {
       if (!this.touchLock) {
         // 加上节流锁
         this.touchLock = true;
-        console.log('touchmove');
+        // console.log('touchmove');
 
         this.distanceX = event.targetTouches[0].pageX - this.startX;
         this.$refs.swiperSlide.style.left = (this.lastLocation + this.distanceX) / remPx + 'rem';

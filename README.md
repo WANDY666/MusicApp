@@ -10,6 +10,8 @@ vue3 + vue-cli4 + vue-router +vuex
 
 ### Show（Chrome iPhone 6/7/8)
 
+已部署到云服务器，[http://1.117.234.25:8080/](http://1.117.234.25:8080/)，推荐使用手机打开。
+
 <img src="https://s3.bmp.ovh/imgs/2021/10/4922131753897c21.gif" alt='错误' width='300' />
 
 <img src="https://s3.bmp.ovh/imgs/2021/10/e9f22ec9572ee1c9.gif" alt='错误' width='300' />

@@ -8,6 +8,7 @@ module.exports = {
   },
 
   devServer: {
+    port: 8080, 
     hot: true,
     proxy: {
       '/api': {
@@ -15,7 +16,14 @@ module.exports = {
         changeOrigin: true
         // pathRewrite: {"^/api" : ""},
         // logLevel: 'debug'
-      }
+      },
+      '/node': {
+        target: 'http://1.117.234.25:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          "^/node": ''
+        }
+      } 
     }
   },
 }

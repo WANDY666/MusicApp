@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-let corsUrl = '/api';
-let baseUrl = 'http://localhost:3000'
-//获取轮播图的api, type
+let corsUrl = 'http://localhost:8080/api';
+let baseUrl = 'http://localhost:8080/node'
+//获取轮播图的api,  type
 // type:资源类型,对应以下类型,默认为 0 即PC
 // 0: pc
 // 1: android
